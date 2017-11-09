@@ -81,6 +81,7 @@
     <Compile Include="Models\Video.cs" />
     <Compile Include="Services\Interface\IYoutubeService.cs" />
     <Compile Include="Services\YoutubeService.cs" />
+    <Compile Include="ViewModelLocator.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
