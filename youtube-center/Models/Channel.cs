@@ -17,5 +17,10 @@ namespace youtube_center.Models
         
         [JsonProperty("videos")]
         public List<Video> Videos { get; set; } = new List<Video>();
+
+        // 
+
+        [JsonIgnore]
+        public string ThumbnailPath => Path.Combine(SettingsRepository.ImageDirectory, Id);
     }
 }
