@@ -4,6 +4,7 @@ using youtube_center.Repositories.Interface;
 using youtube_center.Services;
 using youtube_center.Services.Interface;
 using youtube_center.ViewModels;
+using youtube_center.ViewModels.Components;
 
 namespace youtube_center
 {
@@ -21,9 +22,12 @@ namespace youtube_center
 
             // Viewmodels
             SimpleIoc.Default.Register<MainWindowViewModel>();
+            SimpleIoc.Default.Register<AddChannelViewModel>();
+            SimpleIoc.Default.Register<HomeViewModel>();
         }
 
         public static MainWindowViewModel Main => ServiceLocator.Current.GetInstance<MainWindowViewModel>();
+        public static HomeViewModel Home => ServiceLocator.Current.GetInstance<HomeViewModel>();
 
     }
 }

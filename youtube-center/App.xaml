@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:youtube_center"
              xmlns:classes="clr-namespace:youtube_center.Classes"
+             xmlns:vmComponents="clr-namespace:youtube_center.ViewModels.Components"
+             xmlns:components="clr-namespace:youtube_center.Views.Components"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -18,6 +20,10 @@
             <local:ViewModelLocator x:Key="Locator"/>
             <classes:DateConverter x:Key="DateConverter" />
             <classes:ViewsConverter x:Key="ViewsConverter"/>
+            
+            <DataTemplate DataType="{x:Type vmComponents:HomeViewModel}">
+                <components:Home />
+            </DataTemplate>
 
         </ResourceDictionary>
     </Application.Resources>

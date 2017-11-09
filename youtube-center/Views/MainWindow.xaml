@@ -10,7 +10,7 @@
                       TextElement.FontSize="17"
                       Background="{StaticResource MenuBackgroundBrush}"
                       DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-                      Title="MainWindow" Height="710" Width="1330">
+                      Title="Youtube Center" Height="710" Width="1330">
     <controls:MetroWindow.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Focusable" Value="False"/>
@@ -19,60 +19,6 @@
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         </Style>
     </controls:MetroWindow.Resources>
-    <DockPanel >
-        <DockPanel Dock="Left" LastChildFill="False" Margin="8">
-            <Button Content="Left" DockPanel.Dock="Top" />
-        </DockPanel>
-        <DockPanel Dock="Bottom" LastChildFill="False" Margin="8">
-            <Button DockPanel.Dock="Right" Content="Test" Command="{Binding TestCommand}" />
-            <Button DockPanel.Dock="Right" Content="Add" />
-        </DockPanel>
-        <ListBox ItemsSource="{Binding Videos}" SelectedItem="{Binding SelectedVideo}"
-                 Background="#2B2B2B"
-                 VerticalContentAlignment="Stretch"
-                 HorizontalContentAlignment="Stretch">
-            <ListBox.ItemContainerStyle>
-                <Style>
-                    <Setter Property="FrameworkElement.Margin" Value="0, 5" />
-                </Style>
-            </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel Width="300">
-                        <DockPanel.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Watch on youtube" />
-                                <MenuItem Header="Watch with streamlink" />
-                                <MenuItem Header="Mark as watched" />
-                            </ContextMenu>
-                        </DockPanel.ContextMenu>
-                        <DockPanel DockPanel.Dock="Bottom" Margin="4" HorizontalAlignment="Stretch">
-                            <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0"
-                                       FontSize="18" Text="{Binding Title}" />
-                            <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" FontWeight="SemiBold"
-                                       TextDecorations="Underline"
-                                       Margin="5,10,0,-5"
-                                       Text="{Binding Author.Name}" />
-                            <DockPanel HorizontalAlignment="Stretch" >
-                                <Label Foreground="#6E6E6E" DockPanel.Dock="Left" Content="{Binding Views, Converter={StaticResource ViewsConverter}}" />
-                                <Label Foreground="#6E6E6E" Content="•"/>
-                                <Label Foreground="#6E6E6E" DockPanel.Dock="Right" Content="{Binding Uploaded, Converter={StaticResource DateConverter}}" />
-                            </DockPanel>
-                        </DockPanel>
-                        <Border Background="Black">
-                            <Image Source="{Binding Thumbnail.Url}"
-                                   HorizontalAlignment="Center"
-                                   Width="240"
-                                   Height="180" />
-                        </Border>
-                    </DockPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="4" />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
-    </DockPanel>
+    <controls:TransitioningContentControl Content="{Binding Display}"/>
+    
 </controls:MetroWindow>
