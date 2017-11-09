@@ -78,6 +78,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\Converters.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Channel.cs" />
     <Compile Include="Models\Subscription\Body.cs" />
