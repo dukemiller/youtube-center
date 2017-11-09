@@ -95,6 +95,15 @@
     <Compile Include="Models\Subscription\Outline.cs" />
     <Compile Include="Models\Thumbnail.cs" />
     <Compile Include="Models\Video.cs" />
+    <Compile Include="Models\Youtube\PageInfo.cs" />
+    <Compile Include="Models\Youtube\Default.cs" />
+    <Compile Include="Models\Youtube\High.cs" />
+    <Compile Include="Models\Youtube\Item.cs" />
+    <Compile Include="Models\Youtube\Localized.cs" />
+    <Compile Include="Models\Youtube\Medium.cs" />
+    <Compile Include="Models\Youtube\Snippet.cs" />
+    <Compile Include="Models\Youtube\Thumbnails.cs" />
+    <Compile Include="Models\Youtube\YoutubeResponse.cs" />
     <Compile Include="Repositories\Interface\ISettingsRepository.cs" />
     <Compile Include="Repositories\SettingsRepository.cs" />
     <Compile Include="Services\Interface\IYoutubeService.cs" />

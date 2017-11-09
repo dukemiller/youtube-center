@@ -2,32 +2,99 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml;
 using HtmlAgilityPack;
+using Newtonsoft.Json;
+using youtube_center.Classes;
 using youtube_center.Models;
+using youtube_center.Models.Youtube;
 using youtube_center.Services.Interface;
 
 namespace youtube_center.Services
 {
     public class YoutubeService: IYoutubeService
     {
-        public async Task<IEnumerable<Video>> RetrieveVideos(Channel channel)
+        private readonly HttpClient _client;
+
+        private static readonly Regex UserRegex = new Regex(@"https:\/\/www\.youtube\.com\/user\/(\w+)");
+
+        private static readonly Regex IdRegex = new Regex(@"https:\/\/www\.youtube\.com\/channel\/(\w+)");
+
+        //
+
+        public YoutubeService()
         {
-            var document = new HtmlDocument();
-
-            var url = new Uri($@"https://www.youtube.com/feeds/videos.xml?channel_id={channel.Id}");
-
-            using (var client = new WebClient())
-            {
-                var xml = await client.DownloadStringTaskAsync(url);
-                document.LoadHtml(xml);
-            }
-
-            return document.DocumentNode.SelectNodes("//entry").Select(ToVideo);
+            _client = new HttpClient();
         }
 
-        public Video ToVideo(HtmlNode node)
+        //
+
+        public async Task<IEnumerable<Video>> RetrieveVideos(Channel channel)
+        {
+            try
+            {
+                var document = new HtmlDocument();
+                var url = new Uri($@"https://www.youtube.com/feeds/videos.xml?channel_id={channel.Id}");
+                using (var client = new WebClient())
+                {
+                    var xml = await client.DownloadStringTaskAsync(url);
+                    document.LoadHtml(xml);
+                }
+                return document.DocumentNode?.SelectNodes("//entry")?.Select(ToVideo) ?? new List<Video>();
+            }
+
+            catch
+            {
+                return new List<Video>();
+            }
+        }
+
+        public async Task<(bool successful, string username, string id)> FindDetails(string channelUrl)
+        {
+            string q;
+
+            // TODO: yeah wow make this better
+
+            if (UserRegex.IsMatch(channelUrl))
+                q = "forUsername=" + UserRegex.Match(channelUrl).Groups[1].Value;
+            else if (IdRegex.IsMatch(channelUrl))
+                q = "id=" + IdRegex.Match(channelUrl).Groups[1].Value;
+            else
+                return (false, "", "");
+
+            try
+            {
+                var url = "https://www.googleapis.com/youtube/v3/channels" +
+                          $"?key={ApiKeys.Youtube}" +
+                          $"&{q}" +
+                          "&part=id,snippet";
+
+                var request = await _client.GetAsync(url);
+                var json = await request.Content.ReadAsStringAsync();
+                var response = JsonConvert.DeserializeObject<YoutubeResponse>(json);
+
+                if (response.Items.Count == 0)
+                    return (false, "", "");
+
+                var id = response.Items.First().Id;
+                var username = response.Items.First().Snippet.Title;
+
+                return (true, username, id);
+            }
+
+            // TODO: yeah wow make this better x2
+            catch
+            {
+                return (false, "", "");
+            }
+
+        }
+
+        // 
+
+        private static Video ToVideo(HtmlNode node)
         {
             var id = node.SelectSingleNode(".//*[name()='yt:videoid']").InnerText;
 
@@ -74,7 +141,6 @@ namespace youtube_center.Services
                 Thumbnail = thumbnail
             };
         }
-
 
     }
 }
