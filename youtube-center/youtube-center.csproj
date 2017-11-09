@@ -84,6 +84,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\ApiKeys.cs" />
+    <Compile Include="Classes\ApiKeysLocal.cs" />
     <Compile Include="Classes\Converters.cs" />
     <Compile Include="Enums\ComponentView.cs" />
     <Compile Include="Models\Author.cs" />
