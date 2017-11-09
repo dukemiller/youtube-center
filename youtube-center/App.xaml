@@ -24,7 +24,11 @@
             <DataTemplate DataType="{x:Type vmComponents:HomeViewModel}">
                 <components:Home />
             </DataTemplate>
-
+            
+            <DataTemplate DataType="{x:Type vmComponents:AddChannelViewModel}">
+                <components:AddChannel />
+            </DataTemplate>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -7,6 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using youtube_center.Enums;
 using youtube_center.Models;
 using youtube_center.Repositories.Interface;
 using youtube_center.Services.Interface;
@@ -43,6 +44,7 @@ namespace youtube_center.ViewModels.Components
             );
 
             TestCommand = new RelayCommand(Test);
+            AddCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Add));
         }
 
         // 
@@ -60,6 +62,8 @@ namespace youtube_center.ViewModels.Components
         }
 
         public RelayCommand TestCommand { get; set; }
+
+        public RelayCommand AddCommand { get; set; }
 
         // 
 

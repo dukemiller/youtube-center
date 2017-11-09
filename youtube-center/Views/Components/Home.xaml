@@ -5,14 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:youtube_center.Views.Components"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             DataContext="{Binding Source={StaticResource Locator}, Path=Home}"
+             d:DesignHeight="710" d:DesignWidth="1330">
     <DockPanel >
         <DockPanel Dock="Left" LastChildFill="False" Margin="8">
             <Button Content="Left" DockPanel.Dock="Top" />
         </DockPanel>
         <DockPanel Dock="Bottom" LastChildFill="False" Margin="8">
             <Button DockPanel.Dock="Right" Content="Test" Command="{Binding TestCommand}" />
-            <Button DockPanel.Dock="Right" Content="Add" />
+            <Button DockPanel.Dock="Right" Content="Add" Command="{Binding AddCommand}" />
         </DockPanel>
         <ListBox ItemsSource="{Binding Videos}" SelectedItem="{Binding SelectedVideo}"
                  Background="#2B2B2B"
