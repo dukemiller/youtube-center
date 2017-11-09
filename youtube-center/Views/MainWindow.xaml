@@ -1,48 +1,62 @@
-﻿<Window x:Class="youtube_center.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-        Title="MainWindow" Height="680" Width="1330">
-    <DockPanel>
-        <DockPanel Dock="Left" LastChildFill="False">
+﻿<controls:MetroWindow x:Class="youtube_center.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      mc:Ignorable="d"
+                      BorderThickness="0" 
+                      GlowBrush="Black"
+                      TextElement.FontSize="17"
+                      Background="{StaticResource MenuBackgroundBrush}"
+                      DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
+                      Title="MainWindow" Height="710" Width="1330">
+    <controls:MetroWindow.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        </Style>
+    </controls:MetroWindow.Resources>
+    <DockPanel >
+        <DockPanel Dock="Left" LastChildFill="False" Margin="8">
             <Button Content="Left" DockPanel.Dock="Top" />
         </DockPanel>
-        <DockPanel Dock="Bottom">
-            <Button DockPanel.Dock="Bottom" Content="Test" Command="{Binding TestCommand}" />
-            <Button Content="Add" />
+        <DockPanel Dock="Bottom" LastChildFill="False" Margin="8">
+            <Button DockPanel.Dock="Right" Content="Test" Command="{Binding TestCommand}" />
+            <Button DockPanel.Dock="Right" Content="Add" />
         </DockPanel>
         <ListBox ItemsSource="{Binding Videos}" SelectedItem="{Binding SelectedVideo}"
+                 Background="#2B2B2B"
                  VerticalContentAlignment="Stretch"
                  HorizontalContentAlignment="Stretch">
             <ListBox.ItemContainerStyle>
                 <Style>
-                    <Setter Property="FrameworkElement.Margin" Value="0, 5"/>
+                    <Setter Property="FrameworkElement.Margin" Value="0, 5" />
                 </Style>
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel VerticalAlignment="Stretch"
-                               Width="300">
+                    <DockPanel Width="300">
                         <DockPanel.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Watch on youtube"/>
-                                <MenuItem Header="Watch with streamlink"/>
-                                <MenuItem Header="Mark as watched"/>
+                                <MenuItem Header="Watch on youtube" />
+                                <MenuItem Header="Watch with streamlink" />
+                                <MenuItem Header="Mark as watched" />
                             </ContextMenu>
                         </DockPanel.ContextMenu>
-                        <DockPanel DockPanel.Dock="Bottom" Margin="4">
+                        <DockPanel DockPanel.Dock="Bottom" Margin="4" HorizontalAlignment="Stretch">
                             <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0"
                                        FontSize="18" Text="{Binding Title}" />
-                            <TextBlock DockPanel.Dock="Top"  TextWrapping="Wrap" FontWeight="SemiBold" 
+                            <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" FontWeight="SemiBold"
                                        TextDecorations="Underline"
-                                       Margin="5,0"
+                                       Margin="5,10,0,-5"
                                        Text="{Binding Author.Name}" />
-                            <DockPanel>
-                                <Label Content="{Binding Views}" />
-                                <Label Content="{Binding Uploaded}" />
+                            <DockPanel HorizontalAlignment="Stretch" >
+                                <Label Foreground="#6E6E6E" DockPanel.Dock="Left" Content="{Binding Views, Converter={StaticResource ViewsConverter}}" />
+                                <Label Foreground="#6E6E6E" Content="•"/>
+                                <Label Foreground="#6E6E6E" DockPanel.Dock="Right" Content="{Binding Uploaded, Converter={StaticResource DateConverter}}" />
                             </DockPanel>
                         </DockPanel>
                         <Border Background="Black">
@@ -61,4 +75,4 @@
             </ListBox.ItemsPanel>
         </ListBox>
     </DockPanel>
-</Window>
+</controls:MetroWindow>
