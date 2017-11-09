@@ -72,7 +72,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Services\Interface\IYoutubeInterface.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Channel.cs" />
     <Compile Include="Models\Subscription\Body.cs" />
@@ -80,6 +79,8 @@
     <Compile Include="Models\Subscription\Outline.cs" />
     <Compile Include="Models\Thumbnail.cs" />
     <Compile Include="Models\Video.cs" />
+    <Compile Include="Services\Interface\IYoutubeService.cs" />
+    <Compile Include="Services\YoutubeService.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
