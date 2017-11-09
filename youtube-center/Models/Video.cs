@@ -29,5 +29,8 @@ namespace youtube_center.Models
 
         [JsonProperty("author")]
         public Author Author { get; set; }
+
+        [JsonProperty("watched")]
+        public bool Watched { get; set; }
     }
 }
