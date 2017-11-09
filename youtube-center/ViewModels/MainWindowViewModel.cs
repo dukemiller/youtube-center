@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using youtube_center.Models;
@@ -44,7 +45,7 @@ namespace youtube_center.ViewModels
 
             var testChannel = new Channel {Id = "UCtUbO6rBht0daVIOGML3c8w"};
             var videos = new List<Video>(await _youtubeService.RetrieveVideos(testChannel));
-            Videos = new ObservableCollection<Video>(videos);
+            Videos = new ObservableCollection<Video>(videos.OrderByDescending(video => video.Uploaded).ThenBy(video => video.Title));
         }
 
     }
