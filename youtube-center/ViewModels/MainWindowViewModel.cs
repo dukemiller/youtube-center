@@ -1,6 +1,8 @@
-﻿namespace youtube_center.ViewModels
+﻿using GalaSoft.MvvmLight;
+
+namespace youtube_center.ViewModels
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel: ViewModelBase
     {
         
     }
