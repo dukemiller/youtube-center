@@ -91,7 +91,7 @@
     <Compile Include="Models\Thumbnail.cs" />
     <Compile Include="Models\Video.cs" />
     <Compile Include="Repositories\Interface\ISettingsRepository.cs" />
-    <Compile Include="Repositories\Interface\SettingsRepository.cs" />
+    <Compile Include="Repositories\SettingsRepository.cs" />
     <Compile Include="Services\Interface\IYoutubeService.cs" />
     <Compile Include="Services\YoutubeService.cs" />
     <Compile Include="ViewModelLocator.cs" />

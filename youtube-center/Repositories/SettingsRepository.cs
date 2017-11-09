@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using youtube_center.Models;
+using youtube_center.Repositories.Interface;
 
-namespace youtube_center.Repositories.Interface
+namespace youtube_center.Repositories
 {
     [Serializable]
     public class SettingsRepository: ISettingsRepository
