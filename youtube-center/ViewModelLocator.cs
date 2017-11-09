@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using youtube_center.Repositories;
 using youtube_center.Repositories.Interface;
 using youtube_center.Services;
 using youtube_center.Services.Interface;
@@ -28,6 +29,7 @@ namespace youtube_center
 
         public static MainWindowViewModel Main => ServiceLocator.Current.GetInstance<MainWindowViewModel>();
         public static HomeViewModel Home => ServiceLocator.Current.GetInstance<HomeViewModel>();
+        public static AddChannelViewModel Add => ServiceLocator.Current.GetInstance<AddChannelViewModel>();
 
     }
 }
