@@ -14,7 +14,7 @@ namespace youtube_center
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             // Repositories
-            // SimpleIoc.Default.Register<ISettingsRepository>(SettingsRepository.Load);
+            SimpleIoc.Default.Register<ISettingsRepository>(SettingsRepository.Load);
 
             // Services
             SimpleIoc.Default.Register<IYoutubeService, YoutubeService>();
