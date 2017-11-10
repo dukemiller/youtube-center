@@ -15,5 +15,10 @@ namespace youtube_center.Services.Interface
         ///     Find details from the given channel url.
         /// </summary>
         Task<(bool successful, string username, string id)> FindDetails(string channelUrl);
+
+        /// <summary>
+        ///     Download the thumbnails locally for every video on the channel, if they dont exist.
+        /// </summary>
+        Task ThumbnailCheck(Channel channel);
     }
 }

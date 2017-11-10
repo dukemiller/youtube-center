@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -21,6 +22,8 @@ namespace youtube_center.Services
         private static readonly Regex UserRegex = new Regex(@"https:\/\/www\.youtube\.com\/user\/(\w+)");
 
         private static readonly Regex IdRegex = new Regex(@"https:\/\/www\.youtube\.com\/channel\/(\w+)");
+
+        private static readonly WebClient Downloader = new WebClient();
 
         //
 
@@ -90,6 +93,30 @@ namespace youtube_center.Services
                 return (false, "", "");
             }
 
+        }
+        
+        public async Task ThumbnailCheck(Channel channel)
+        {
+            if (!Directory.Exists(channel.ThumbnailPath))
+                Directory.CreateDirectory(channel.ThumbnailPath);
+
+            foreach (var video in channel.Videos)
+            {
+                var image = video.Thumbnail.Url;
+                var path = Path.Combine(channel.ThumbnailPath, $"{video.Id}.png");
+
+                try
+                {
+                    if (!File.Exists(video.Thumbnail.Url))
+                        await Downloader.DownloadFileTaskAsync(image, path);
+                    video.Thumbnail.Url = path;
+                }
+
+                catch
+                {
+                    // TODO: Set a default image later    
+                }
+            }
         }
 
         // 
