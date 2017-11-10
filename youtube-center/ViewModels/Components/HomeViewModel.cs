@@ -28,31 +28,12 @@ namespace youtube_center.ViewModels.Components
             _settingsRepository = settingsRepository;
             _youtubeService = youtubeService;
 
-            MessengerInstance.Register<Request>(this, _ =>
-            {
-                switch (_)
-                {
-                    case Request.Refresh:
-                        Videos = new ObservableCollection<Video>(
-                            _settingsRepository
-                                .Channels.SelectMany(channel => channel.Videos)
-                                .OrderByDescending(video => video.Uploaded).ThenBy(video => video.Title)
-                        );
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(_), _, null);
-                }
-            });
-            
-            Videos = new ObservableCollection<Video>(
-                _settingsRepository
-                    .Channels.SelectMany(channel => channel.Videos)
-                    .OrderByDescending(video => video.Uploaded).ThenBy(video => video.Title)
-            );
-
-            TestCommand = new RelayCommand(Test);
+            // https://www.youtube.com/subscription_manager
+            // https://www.youtube.com/feeds/videos.xml?channel_id=UCtUbO6rBht0daVIOGML3c8w
 
             AddCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Add));
+            MessengerInstance.Register<Request>(this, HandleRequest);
+            LoadVideos();
         }
 
         // 
@@ -68,33 +49,38 @@ namespace youtube_center.ViewModels.Components
             get => _selectedVideo;
             set => Set(() => SelectedVideo, ref _selectedVideo, value);
         }
-
-        public RelayCommand TestCommand { get; set; }
-
+        
         public RelayCommand AddCommand { get; set; }
 
         // 
 
-        private async void Test()
+        private async void LoadVideos()
         {
-            // https://www.youtube.com/subscription_manager
-            // https://www.youtube.com/feeds/videos.xml?channel_id=UCtUbO6rBht0daVIOGML3c8w
-            // TODO: check if theres a better way to get every channel later?
-
-            foreach (var channel in _settingsRepository.Channels)
+            await Task.Run(() =>
             {
-                channel.Videos = new List<Video>(await _youtubeService.RetrieveVideos(channel));
-                await _youtubeService.ThumbnailCheck(channel);
-            }
-
-            _settingsRepository.LastChecked = DateTime.Now;
-            _settingsRepository.Save();
-
-            Videos = new ObservableCollection<Video>(
-                _settingsRepository
-                    .Channels.SelectMany(channel => channel.Videos)
-                    .OrderByDescending(video => video.Uploaded).ThenBy(video => video.Title)
-            );
+                Videos = new ObservableCollection<Video>(
+                    _settingsRepository
+                        .Channels.SelectMany(channel => channel.Videos)
+                        .OrderByDescending(video => video.Uploaded).ThenBy(video => video.Title)
+                );
+            });
         }
+
+        private void HandleRequest(Request _)
+        {
+            switch (_)
+            {
+                case Request.Refresh:
+                    Videos = new ObservableCollection<Video>(
+                        _settingsRepository
+                            .Channels.SelectMany(channel => channel.Videos)
+                            .OrderByDescending(video => video.Uploaded).ThenBy(video => video.Title)
+                    );
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_), _, null);
+            }
+        }
+
     }
 }

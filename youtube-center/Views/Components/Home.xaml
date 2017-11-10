@@ -12,7 +12,6 @@
             <Button Content="Left" DockPanel.Dock="Top" />
         </DockPanel>
         <DockPanel Dock="Bottom" LastChildFill="False" Margin="8">
-            <Button DockPanel.Dock="Right" Content="Test" Command="{Binding TestCommand}" />
             <Button DockPanel.Dock="Right" Content="Add" Command="{Binding AddCommand}" />
         </DockPanel>
         <ListBox ItemsSource="{Binding Videos}" SelectedItem="{Binding SelectedVideo}"
