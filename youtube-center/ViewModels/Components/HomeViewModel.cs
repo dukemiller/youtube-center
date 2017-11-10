@@ -28,21 +28,30 @@ namespace youtube_center.ViewModels.Components
             _settingsRepository = settingsRepository;
             _youtubeService = youtubeService;
 
-            /*
-            _settingsRepository.Channels.Add(new Channel
+            MessengerInstance.Register<Request>(this, _ =>
             {
-                Name = "Summoning Salt",
-                Id = "UCtUbO6rBht0daVIOGML3c8w"
+                switch (_)
+                {
+                    case Request.Refresh:
+                        Videos = new ObservableCollection<Video>(
+                            _settingsRepository
+                                .Channels.SelectMany(channel => channel.Videos)
+                                .OrderByDescending(video => video.Uploaded).ThenBy(video => video.Title)
+                        );
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(_), _, null);
+                }
             });
-            */
-
+            
             Videos = new ObservableCollection<Video>(
-                    _settingsRepository
+                _settingsRepository
                     .Channels.SelectMany(channel => channel.Videos)
                     .OrderByDescending(video => video.Uploaded).ThenBy(video => video.Title)
             );
 
             TestCommand = new RelayCommand(Test);
+
             AddCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Add));
         }
 
