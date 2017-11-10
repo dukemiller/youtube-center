@@ -4,10 +4,13 @@
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                       mc:Ignorable="d"
                       BorderThickness="0" 
                       GlowBrush="Black"
                       TextElement.FontSize="17"
+                      Loaded="MainWindow_OnLoaded"
+                      dialogs:DialogParticipation.Register="{Binding}"
                       Background="{StaticResource MenuBackgroundBrush}"
                       DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
                       Title="Youtube Center" Height="710" Width="1330">
@@ -20,5 +23,4 @@
         </Style>
     </controls:MetroWindow.Resources>
     <controls:TransitioningContentControl Content="{Binding Display}"/>
-    
 </controls:MetroWindow>

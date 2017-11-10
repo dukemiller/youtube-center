@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using GalaSoft.MvvmLight.Ioc;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace youtube_center.Views
 {
@@ -10,6 +12,11 @@ namespace youtube_center.Views
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            SimpleIoc.Default.Register<IDialogCoordinator, DialogCoordinator>();
         }
     }
 }
