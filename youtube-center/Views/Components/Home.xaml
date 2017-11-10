@@ -27,6 +27,7 @@
                  VirtualizingPanel.ScrollUnit="Pixel"
                  VerticalAlignment="Stretch"
                  VerticalContentAlignment="Top"
+                 HorizontalAlignment="Stretch"
                  HorizontalContentAlignment="Stretch">
             <ListBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
@@ -39,48 +40,12 @@
                     <Setter Property="FrameworkElement.Margin" Value="0, 5" />
                 </Style>
             </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel Width="300">
-                        <DockPanel.ContextMenu>
-                            <ContextMenu DataContext="{Binding Source={StaticResource Locator}, Path=Home}">
-                                <MenuItem Header="Watch on youtube" Command="{Binding ContextCommand}"
-                                          CommandParameter="youtube" />
-                                <MenuItem Header="Watch with streamlink" Command="{Binding ContextCommand}"
-                                          CommandParameter="streamlink" />
-                                <MenuItem Header="Mark as watched" Command="{Binding ContextCommand}"
-                                          CommandParameter="mark" />
-                            </ContextMenu>
-                        </DockPanel.ContextMenu>
-                        <DockPanel DockPanel.Dock="Bottom" Margin="4" HorizontalAlignment="Stretch">
-                            <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" FontWeight="Bold" Margin="5,0"
-                                       FontSize="18" Text="{Binding Title}" />
-                            <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" FontWeight="SemiBold"
-                                       TextDecorations="Underline"
-                                       Margin="5,10,0,-5"
-                                       Text="{Binding Author.Name}" />
-                            <DockPanel HorizontalAlignment="Stretch">
-                                <Label Foreground="#6E6E6E" DockPanel.Dock="Left"
-                                       Content="{Binding Views, Converter={StaticResource ViewsConverter}}" />
-                                <Label Foreground="#6E6E6E" Content="•" />
-                                <Label Foreground="#6E6E6E" DockPanel.Dock="Right"
-                                       Content="{Binding Uploaded, Converter={StaticResource DateConverter}}" />
-                            </DockPanel>
-                        </DockPanel>
-                        <Border Background="Black" VerticalAlignment="Top">
-                            <Image Source="{Binding Thumbnail.Url}"
-                                   HorizontalAlignment="Center"
-                                   Width="240"
-                                   Height="180" />
-                        </Border>
-                    </DockPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="4" />
+                    <UniformGrid  Columns="3"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
+        
     </DockPanel>
 </UserControl>
