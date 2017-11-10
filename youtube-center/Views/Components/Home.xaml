@@ -27,10 +27,10 @@
                 <DataTemplate>
                     <DockPanel Width="300">
                         <DockPanel.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Watch on youtube" />
-                                <MenuItem Header="Watch with streamlink" />
-                                <MenuItem Header="Mark as watched" />
+                            <ContextMenu DataContext="{Binding Source={StaticResource Locator}, Path=Home}">
+                                <MenuItem Header="Watch on youtube" Command="{Binding ContextCommand}" CommandParameter="youtube" />
+                                <MenuItem Header="Watch with streamlink" Command="{Binding ContextCommand}" CommandParameter="streamlink" />
+                                <MenuItem Header="Mark as watched" Command="{Binding ContextCommand}" CommandParameter="mark" />
                             </ContextMenu>
                         </DockPanel.ContextMenu>
                         <DockPanel DockPanel.Dock="Bottom" Margin="4" HorizontalAlignment="Stretch">

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -32,6 +30,7 @@ namespace youtube_center.ViewModels.Components
             // https://www.youtube.com/feeds/videos.xml?channel_id=UCtUbO6rBht0daVIOGML3c8w
 
             AddCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Add));
+            ContextCommand = new RelayCommand<string>(Context);
             MessengerInstance.Register<Request>(this, HandleRequest);
             LoadVideos();
         }
@@ -52,7 +51,39 @@ namespace youtube_center.ViewModels.Components
         
         public RelayCommand AddCommand { get; set; }
 
+        public RelayCommand<string> ContextCommand { get; set; }
+
         // 
+
+        private void Context(string token)
+        {
+            switch (token)
+            {
+                case "youtube":
+                    Process.Start(SelectedVideo.Url);
+                    break;
+
+                case "streamlink":
+                    var info = new ProcessStartInfo
+                    {
+                        FileName = "cmd.exe",
+                        RedirectStandardInput = true,
+                        RedirectStandardOutput = true,
+                        CreateNoWindow = true,
+                        UseShellExecute = false
+                    };
+
+                    var cmd = new Process {StartInfo = info};
+                    cmd.Start();
+                    cmd.StandardInput.WriteLine($"streamlink {SelectedVideo.Url} best");
+                    cmd.StandardInput.Flush();
+                    cmd.StandardInput.Close();
+                    break;
+
+                case "mark":
+                    break;
+            }
+        }
 
         private async void LoadVideos()
         {

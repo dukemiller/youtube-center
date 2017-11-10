@@ -32,5 +32,8 @@ namespace youtube_center.Models
 
         [JsonProperty("watched")]
         public bool Watched { get; set; }
+
+        [JsonIgnore]
+        public string Url => $"https://www.youtube.com/watch?v={Id}";
     }
 }
