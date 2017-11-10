@@ -6,8 +6,65 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=Add}"
              mc:Ignorable="d"
              TextElement.FontSize="22"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-         <Label>Hello</Label>   
-    </Grid>
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             Background="{StaticResource MenuBackgroundBrush}"
+             d:DesignHeight="710" d:DesignWidth="1330">
+    <DockPanel Margin="8">
+
+        <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
+            <Button DockPanel.Dock="Left" Content="Go back" Command="{Binding GoBackCommand}" />
+
+        </DockPanel>
+
+        <Label FontWeight="Bold" DockPanel.Dock="Top">Add a single user</Label>
+        <StackPanel DockPanel.Dock="Top">
+
+            <DockPanel>
+                <Button DockPanel.Dock="Right" VerticalAlignment="Center" Width="100" Content="Add" />
+                <TextBox Margin="8" FontSize="22" controls:TextBoxHelper.Watermark="Channel URL: "
+                         Text="{Binding Url, UpdateSourceTrigger=PropertyChanged}" />
+            </DockPanel>
+
+        </StackPanel>
+
+        <Separator DockPanel.Dock="Top" Margin="5,10" />
+
+        <Label FontWeight="Bold" DockPanel.Dock="Top">Import your current subscriptions</Label>
+        <DockPanel LastChildFill="False" DockPanel.Dock="Top" HorizontalAlignment="Stretch">
+            <TextBlock VerticalAlignment="Center" DockPanel.Dock="Top" TextWrapping="Wrap" Foreground="White"
+                       Margin="0,8">
+                <TextBlock>Go to</TextBlock>
+                <Hyperlink Command="{Binding OpenSubscriptionsCommand}">this page</Hyperlink>
+                <TextBlock TextWrapping="Wrap">and scroll all the way to the bottom and click "export subscriptions". Then, select that file with the filebrowser below.</TextBlock>
+            </TextBlock>
+            <DockPanel DockPanel.Dock="Top">
+                <Button DockPanel.Dock="Right" Content="Import" Margin="10,0" />
+                <Button DockPanel.Dock="Right" Content="Browse ..." Margin="10,0,0,0" Command="{Binding FilebrowseCommand}" />
+                <TextBox FontSize="22" controls:TextBoxHelper.Watermark="Path to subscription export: "
+                         Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}" />
+            </DockPanel>
+
+        </DockPanel>
+
+        <Separator DockPanel.Dock="Top" Margin="5,15" />
+
+        <Label FontWeight="Bold" DockPanel.Dock="Top">All added channels</Label>
+        <ListBox DockPanel.Dock="Top" VerticalContentAlignment="Center" HorizontalAlignment="Stretch"
+                 HorizontalContentAlignment="Center" 
+                 SelectedItem="{Binding SelectedChannel}"
+                 ItemsSource="{Binding Channels}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+
+    </DockPanel>
 </UserControl>
