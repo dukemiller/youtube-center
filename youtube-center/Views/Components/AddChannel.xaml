@@ -21,7 +21,8 @@
         <StackPanel DockPanel.Dock="Top">
 
             <DockPanel>
-                <Button DockPanel.Dock="Right" VerticalAlignment="Center" Width="100" Content="Add" />
+                <Button DockPanel.Dock="Right" VerticalAlignment="Center" Width="100" Content="Add"
+                        Command="{Binding AddCommand}" />
                 <TextBox Margin="8" FontSize="22" controls:TextBoxHelper.Watermark="Channel URL: "
                          Text="{Binding Url, UpdateSourceTrigger=PropertyChanged}" />
             </DockPanel>

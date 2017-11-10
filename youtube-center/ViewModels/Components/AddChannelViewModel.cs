@@ -40,6 +40,11 @@ namespace youtube_center.ViewModels.Components
             FilebrowseCommand = new RelayCommand(Filebrowse);
             ContextCommand = new RelayCommand<string>(Context);
 
+            AddCommand = new RelayCommand(
+                Add, 
+                () => Url.Length > 0
+            );
+
             ImportCommand = new RelayCommand(
                 Import,
                 () => File.Exists(Path)
@@ -56,6 +61,8 @@ namespace youtube_center.ViewModels.Components
 
         public RelayCommand FilebrowseCommand { get; set; }
         
+        public RelayCommand AddCommand { get; set; }
+
         public RelayCommand ImportCommand { get; set; }
 
         public RelayCommand<string> ContextCommand { get; set; }
@@ -104,6 +111,42 @@ namespace youtube_center.ViewModels.Components
                 Path = dlg.FileName;
         }
         
+        private async void Add()
+        {
+            // Retrieve details
+            var (successful, username, id) = await _youtubeService.FindDetails(Url);
+
+            // Convey an error at some point
+            if (!successful)
+            {
+                return;
+            }
+
+            // Only add if it doesn't already exist
+            if (_settingsRepository.Channels.Any(c => c.Name == username))
+            {
+                return;
+            }
+
+            // Update model
+            var channel = new Channel
+            {
+                Name = username,
+                Id = id
+            };
+            channel.Videos = new List<Video>(await _youtubeService.RetrieveVideos(channel));
+            await _youtubeService.ThumbnailCheck(channel);
+
+            // Add to settings
+            _settingsRepository.Channels.Add(channel);
+            _settingsRepository.Save();
+
+            // Update listing
+            Channels = new ObservableCollection<Channel>(_settingsRepository.Channels.OrderBy(c => c.Name));
+            MessengerInstance.Send(Request.Refresh);
+            Url = "";
+        }
+
         private async void Import()
         {
             // Load file and parse
