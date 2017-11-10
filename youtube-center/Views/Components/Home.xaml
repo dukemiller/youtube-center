@@ -4,11 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              DataContext="{Binding Source={StaticResource Locator}, Path=Home}"
              d:DesignHeight="710" d:DesignWidth="1330">
     <DockPanel>
         <DockPanel Dock="Left" LastChildFill="False" Margin="8">
-            <Button Content="Left" DockPanel.Dock="Top" />
+            <Label DockPanel.Dock="Top" FontWeight="Bold">Videos</Label>
+            <controls:MetroAnimatedSingleRowTabControl DockPanel.Dock="Top"
+                                                       TabStripPlacement="Left"
+                                                       SelectedIndex="{Binding Index}">
+                <controls:MetroTabItem Header="Unwatched" />
+                <controls:MetroTabItem Header="Watched" />
+            </controls:MetroAnimatedSingleRowTabControl>
         </DockPanel>
         <DockPanel Dock="Bottom" LastChildFill="False" Margin="8">
             <Button DockPanel.Dock="Right" Content="Manage channels" Command="{Binding ManageCommand}" />

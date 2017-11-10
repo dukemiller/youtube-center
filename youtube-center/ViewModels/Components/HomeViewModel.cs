@@ -16,6 +16,7 @@ namespace youtube_center.ViewModels.Components
         private readonly ISettingsRepository _settingsRepository;
         private ObservableCollection<Video> _videos = new ObservableCollection<Video>();
         private Video _selectedVideo;
+        private int _index;
 
         // 
 
@@ -50,6 +51,16 @@ namespace youtube_center.ViewModels.Components
 
         public RelayCommand<string> ContextCommand { get; set; }
 
+        public int Index
+        {
+            get => _index;
+            set
+            {
+                Set(() => Index, ref _index, value);
+                LoadVideos();
+            }
+        }
+
         // 
 
         private void Context(string token)
@@ -78,6 +89,9 @@ namespace youtube_center.ViewModels.Components
                     break;
 
                 case "mark":
+                    SelectedVideo.Watched ^= true;
+                    _settingsRepository.Save();
+                    LoadVideos();
                     break;
             }
         }
@@ -89,6 +103,7 @@ namespace youtube_center.ViewModels.Components
                 Videos = new ObservableCollection<Video>(
                     _settingsRepository
                         .Channels.SelectMany(channel => channel.Videos)
+                        .Where(video => Index == 1 ? video.Watched : Index == 0 && !video.Watched)
                         .OrderByDescending(video => video.Uploaded).ThenBy(video => video.Title)
                 );
             });

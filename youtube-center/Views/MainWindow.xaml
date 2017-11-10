@@ -13,7 +13,7 @@
                       dialogs:DialogParticipation.Register="{Binding}"
                       Background="{StaticResource MenuBackgroundBrush}"
                       DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-                      Title="Youtube Center" Height="710" Width="1330">
+                      Title="Youtube Center" Height="710" Width="1420">
     <controls:MetroWindow.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Focusable" Value="False"/>
