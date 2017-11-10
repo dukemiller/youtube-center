@@ -36,6 +36,7 @@ namespace youtube_center.ViewModels.Components
             GoBackCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Home));
             OpenSubscriptionsCommand = new RelayCommand(() => Process.Start("https://www.youtube.com/subscription_manager"));
             FilebrowseCommand = new RelayCommand(Filebrowse);
+            ContextCommand = new RelayCommand<string>(Context);
 
             Channels = new ObservableCollection<Channel>(_settingsRepository.Channels.OrderBy(c => c.Name));
         }
@@ -48,6 +49,7 @@ namespace youtube_center.ViewModels.Components
 
         public RelayCommand FilebrowseCommand { get; set; }
         
+        public RelayCommand<string> ContextCommand { get; set; }
 
         public string Url
         {
@@ -93,5 +95,19 @@ namespace youtube_center.ViewModels.Components
                 Path = dlg.FileName;
         }
         
+
+        private void Context(string token)
+        {
+            switch (token)
+            {
+                case "remove":
+                    var channels = _settingsRepository.Channels;
+                    _settingsRepository.Channels.Remove(channels.First(c => c.Id == SelectedChannel.Id));
+                    _settingsRepository.Save();
+                    Channels.Remove(SelectedChannel);
+                    MessengerInstance.Send(Request.Refresh);
+                    break;
+            }
+        }
     }
 }

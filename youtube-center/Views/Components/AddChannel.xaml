@@ -56,7 +56,13 @@
                  ItemsSource="{Binding Channels}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Label Content="{Binding Name}" />
+                    <Label Content="{Binding Name}">
+                        <Label.ContextMenu>
+                            <ContextMenu DataContext="{Binding Source={StaticResource Locator}, Path=Add}">
+                                <MenuItem Header="Remove" Command="{Binding ContextCommand}" CommandParameter="remove" />
+                            </ContextMenu>
+                        </Label.ContextMenu>
+                    </Label>
                 </DataTemplate>
             </ListBox.ItemTemplate>
             <ListBox.ItemsPanel>
