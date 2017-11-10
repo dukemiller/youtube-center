@@ -26,6 +26,8 @@ namespace youtube_center.ViewModels.Components
         private string _url = string.Empty;
         private Channel _selectedChannel;
 
+        private static readonly Regex OutlineRegex = new Regex(@"(?:<outline text=""([\w ]+)"" title=""(?:[\w ]+)"" type=""rss"" xmlUrl=""https:\/\/www\.youtube\.com\/feeds\/videos\.xml\?channel_id=([\w\d-]+)"" \/>)");
+
         //
 
         public AddChannelViewModel(ISettingsRepository settingsRepository, IYoutubeService youtubeService)
@@ -38,6 +40,11 @@ namespace youtube_center.ViewModels.Components
             FilebrowseCommand = new RelayCommand(Filebrowse);
             ContextCommand = new RelayCommand<string>(Context);
 
+            ImportCommand = new RelayCommand(
+                Import,
+                () => File.Exists(Path)
+            );
+
             Channels = new ObservableCollection<Channel>(_settingsRepository.Channels.OrderBy(c => c.Name));
         }
 
@@ -49,6 +56,8 @@ namespace youtube_center.ViewModels.Components
 
         public RelayCommand FilebrowseCommand { get; set; }
         
+        public RelayCommand ImportCommand { get; set; }
+
         public RelayCommand<string> ContextCommand { get; set; }
 
         public string Url
@@ -95,6 +104,51 @@ namespace youtube_center.ViewModels.Components
                 Path = dlg.FileName;
         }
         
+        private async void Import()
+        {
+            // Load file and parse
+            var text = File.ReadAllText(Path);
+
+            foreach (Match match in OutlineRegex.Matches(text))
+            {
+                // Extract data to a quantified object
+                var (name, id) = (match.Groups[1].Value, match.Groups[2].Value);
+                var channel = new Channel
+                {
+                    Name = name,
+                    Id = id,
+                    Url = $"https://www.youtube.com/channel/{id}"
+                };
+
+                // Only add if it doesn't already exist
+                if (_settingsRepository.Channels.Any(c => c.Name == name))
+                    continue;
+
+                // Get video, thumbnails
+                try
+                {
+                    channel.Videos = new List<Video>(await _youtubeService.RetrieveVideos(channel));
+                    await _youtubeService.ThumbnailCheck(channel);
+                }
+
+                catch
+                {
+                    
+                }
+
+                // Add to settings and save
+                _settingsRepository.Channels.Add(channel);
+                _settingsRepository.Save();
+            }
+
+            // Save that there was an attempt now to find videos
+            _settingsRepository.LastChecked = DateTime.Now;
+            _settingsRepository.Save();
+
+            // Update listing
+            Channels = new ObservableCollection<Channel>(_settingsRepository.Channels.OrderBy(c => c.Name));
+            MessengerInstance.Send(Request.Refresh);
+        }
 
         private void Context(string token)
         {

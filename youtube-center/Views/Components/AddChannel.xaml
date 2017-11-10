@@ -39,7 +39,7 @@
                 <TextBlock TextWrapping="Wrap">and scroll all the way to the bottom and click "export subscriptions". Then, select that file with the filebrowser below.</TextBlock>
             </TextBlock>
             <DockPanel DockPanel.Dock="Top">
-                <Button DockPanel.Dock="Right" Content="Import" Margin="10,0" />
+                <Button DockPanel.Dock="Right" Content="Import" Margin="10,0" Command="{Binding ImportCommand}" />
                 <Button DockPanel.Dock="Right" Content="Browse ..." Margin="10,0,0,0" Command="{Binding FilebrowseCommand}" />
                 <TextBox FontSize="22" controls:TextBoxHelper.Watermark="Path to subscription export: "
                          Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}" />
