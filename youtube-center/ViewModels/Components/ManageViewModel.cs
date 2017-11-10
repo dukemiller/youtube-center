@@ -19,11 +19,17 @@ namespace youtube_center.ViewModels.Components
     public class ManageViewModel : ViewModelBase
     {
         private readonly ISettingsRepository _settingsRepository;
+
         private readonly IVideoRepository _videoRepository;
+
         private readonly IYoutubeService _youtubeService;
+
         private string _path;
+
         private ObservableCollection<Channel> _channels;
+
         private string _url = string.Empty;
+
         private Channel _selectedChannel;
 
         private static readonly Regex OutlineRegex = new Regex(@"(?:<outline text=""([\w ]+)"" title=""(?:[\w ]+)"" type=""rss"" xmlUrl=""https:\/\/www\.youtube\.com\/feeds\/videos\.xml\?channel_id=([\w\d-]+)"" \/>)");

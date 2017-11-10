@@ -10,30 +10,38 @@ namespace youtube_center.ViewModels
     {
         private ViewModelBase _display;
 
+        // 
+
         public MainWindowViewModel()
         {
             Display = SimpleIoc.Default.GetInstance<HomeViewModel>();
 
-            MessengerInstance.Register<ComponentView>(this, _ =>
-            {
-                switch (_)
-                {
-                    case ComponentView.Home:
-                        Display = SimpleIoc.Default.GetInstance<HomeViewModel>();
-                        break;
-                    case ComponentView.Manage:
-                        Display = SimpleIoc.Default.GetInstance<ManageViewModel>();
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(_), _, null);
-                }
-            });
+            MessengerInstance.Register<ComponentView>(this, HandleComponentView);
         }
+
+        // 
 
         public ViewModelBase Display
         {
             get => _display;
             set => Set(() => Display, ref _display, value);
+        }
+
+        // 
+
+        private void HandleComponentView(ComponentView _)
+        {
+            switch (_)
+            {
+                case ComponentView.Home:
+                    Display = SimpleIoc.Default.GetInstance<HomeViewModel>();
+                    break;
+                case ComponentView.Manage:
+                    Display = SimpleIoc.Default.GetInstance<ManageViewModel>();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_), _, null);
+            }
         }
     }
 }

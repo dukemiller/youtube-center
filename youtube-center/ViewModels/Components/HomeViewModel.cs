@@ -14,9 +14,13 @@ namespace youtube_center.ViewModels.Components
     public class HomeViewModel : ViewModelBase
     {
         private readonly ISettingsRepository _settingsRepository;
+
         private readonly IVideoRepository _videoRepository;
+
         private ObservableCollection<Video> _videos = new ObservableCollection<Video>();
+
         private Video _selectedVideo;
+
         private int _index;
 
         // 
