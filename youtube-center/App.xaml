@@ -21,6 +21,7 @@
             <local:ViewModelLocator x:Key="Locator"/>
             <classes:DateConverter x:Key="DateConverter" />
             <classes:ViewsConverter x:Key="ViewsConverter"/>
+            <classes:VisibilityConverter x:Key="VisibilityConverter"/>
             
             <DataTemplate DataType="{x:Type vmComponents:HomeViewModel}">
                 <components:Home />
