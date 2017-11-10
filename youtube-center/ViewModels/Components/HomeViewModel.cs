@@ -8,23 +8,20 @@ using GalaSoft.MvvmLight.Command;
 using youtube_center.Enums;
 using youtube_center.Models;
 using youtube_center.Repositories.Interface;
-using youtube_center.Services.Interface;
 
 namespace youtube_center.ViewModels.Components
 {
     public class HomeViewModel : ViewModelBase
     {
         private readonly ISettingsRepository _settingsRepository;
-        private readonly IYoutubeService _youtubeService;
         private ObservableCollection<Video> _videos = new ObservableCollection<Video>();
         private Video _selectedVideo;
 
         // 
 
-        public HomeViewModel(ISettingsRepository settingsRepository, IYoutubeService youtubeService)
+        public HomeViewModel(ISettingsRepository settingsRepository)
         {
             _settingsRepository = settingsRepository;
-            _youtubeService = youtubeService;
 
             // https://www.youtube.com/subscription_manager
             // https://www.youtube.com/feeds/videos.xml?channel_id=UCtUbO6rBht0daVIOGML3c8w
@@ -102,11 +99,7 @@ namespace youtube_center.ViewModels.Components
             switch (_)
             {
                 case Request.Refresh:
-                    Videos = new ObservableCollection<Video>(
-                        _settingsRepository
-                            .Channels.SelectMany(channel => channel.Videos)
-                            .OrderByDescending(video => video.Uploaded).ThenBy(video => video.Title)
-                    );
+                    LoadVideos();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(_), _, null);
