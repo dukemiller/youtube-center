@@ -13,6 +13,6 @@
                       dialogs:DialogParticipation.Register="{Binding}"
                       Background="{StaticResource MenuBackgroundBrush}"
                       DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-                      Title="Youtube Center" Height="650" Width="1220">
+                      Title="Youtube Center" Height="700" Width="1120">
     <controls:TransitioningContentControl Content="{Binding Display}" Transition="LeftReplace" />
 </controls:MetroWindow>
