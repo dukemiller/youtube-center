@@ -3,6 +3,6 @@
     public enum ComponentView
     {
         Home,
-        Add
+        Manage
     }
 }

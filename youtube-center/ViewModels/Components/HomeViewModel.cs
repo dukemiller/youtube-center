@@ -26,7 +26,7 @@ namespace youtube_center.ViewModels.Components
             // https://www.youtube.com/subscription_manager
             // https://www.youtube.com/feeds/videos.xml?channel_id=UCtUbO6rBht0daVIOGML3c8w
 
-            AddCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Add));
+            ManageCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Manage));
             ContextCommand = new RelayCommand<string>(Context);
             MessengerInstance.Register<Request>(this, HandleRequest);
             LoadVideos();
@@ -46,7 +46,7 @@ namespace youtube_center.ViewModels.Components
             set => Set(() => SelectedVideo, ref _selectedVideo, value);
         }
         
-        public RelayCommand AddCommand { get; set; }
+        public RelayCommand ManageCommand { get; set; }
 
         public RelayCommand<string> ContextCommand { get; set; }
 

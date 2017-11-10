@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
@@ -17,7 +16,7 @@ using youtube_center.Services.Interface;
 
 namespace youtube_center.ViewModels.Components
 {
-    public class AddChannelViewModel : ViewModelBase
+    public class ManageViewModel : ViewModelBase
     {
         private readonly ISettingsRepository _settingsRepository;
         private readonly IYoutubeService _youtubeService;
@@ -30,7 +29,7 @@ namespace youtube_center.ViewModels.Components
 
         //
 
-        public AddChannelViewModel(ISettingsRepository settingsRepository, IYoutubeService youtubeService)
+        public ManageViewModel(ISettingsRepository settingsRepository, IYoutubeService youtubeService)
         {
             _settingsRepository = settingsRepository;
             _youtubeService = youtubeService;

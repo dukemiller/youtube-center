@@ -110,10 +110,10 @@
     <Compile Include="Services\Interface\IYoutubeService.cs" />
     <Compile Include="Services\YoutubeService.cs" />
     <Compile Include="ViewModelLocator.cs" />
-    <Compile Include="ViewModels\Components\AddChannelViewModel.cs" />
+    <Compile Include="ViewModels\Components\ManageViewModel.cs" />
     <Compile Include="ViewModels\Components\HomeViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Page Include="Views\Components\AddChannel.xaml">
+    <Page Include="Views\Components\Manage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -133,8 +133,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\Components\AddChannel.xaml.cs">
-      <DependentUpon>AddChannel.xaml</DependentUpon>
+    <Compile Include="Views\Components\Manage.xaml.cs">
+      <DependentUpon>Manage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Components\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
