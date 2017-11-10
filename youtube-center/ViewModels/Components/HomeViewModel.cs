@@ -26,6 +26,7 @@ namespace youtube_center.ViewModels.Components
         private Video _selectedVideo;
 
         private int _index;
+        private bool _loading;
 
         // 
 
@@ -62,6 +63,12 @@ namespace youtube_center.ViewModels.Components
         public RelayCommand ManageCommand { get; set; }
 
         public RelayCommand<string> ContextCommand { get; set; }
+
+        public bool Loading
+        {
+            get => _loading;
+            set => Set(() => Loading, ref _loading, value);
+        }
 
         public int Index
         {
@@ -151,6 +158,7 @@ namespace youtube_center.ViewModels.Components
 
         private async Task CheckForNewVideos()
         {
+            Loading = true;
             var anyChanges = false;
 
             foreach (var channel in _settingsRepository.Channels)
@@ -182,6 +190,7 @@ namespace youtube_center.ViewModels.Components
 
             _settingsRepository.LastChecked = DateTime.Now;
             _settingsRepository.Save();
+            Loading = false;
         }
     }
 }
