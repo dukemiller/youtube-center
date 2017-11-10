@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:xaml="clr-namespace:youtube_center.Classes.Xaml"
              DataContext="{Binding Source={StaticResource Locator}, Path=Home}"
              d:DesignHeight="710" d:DesignWidth="1330">
     <DockPanel>
@@ -30,17 +31,10 @@
                  SelectedItem="{Binding SelectedVideo}"
                  Background="#2B2B2B"
                  IsTabStop="False"
-                 VirtualizingPanel.ScrollUnit="Pixel"
                  VerticalAlignment="Stretch"
                  VerticalContentAlignment="Top"
                  HorizontalAlignment="Stretch"
                  HorizontalContentAlignment="Stretch">
-            <ListBox.Resources>
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
-                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
-            </ListBox.Resources>
             <ListBox.ItemContainerStyle>
                 <Style>
                     <Setter Property="FrameworkElement.Margin" Value="0, 5" />
@@ -48,7 +42,7 @@
             </ListBox.ItemContainerStyle>
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="3"/>
+                    <xaml:VirtualizingWrapPanel />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>

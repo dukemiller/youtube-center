@@ -87,6 +87,7 @@
     <Compile Include="Classes\ApiKeys.cs" />
     <Compile Include="Classes\ApiKeysLocal.cs" />
     <Compile Include="Classes\Converters.cs" />
+    <Compile Include="Classes\Xaml\VirtualizingWrapPanel.cs" />
     <Compile Include="Enums\ComponentView.cs" />
     <Compile Include="Enums\Request.cs" />
     <Compile Include="Models\Author.cs" />
