@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -8,6 +9,7 @@ using GalaSoft.MvvmLight.Command;
 using youtube_center.Enums;
 using youtube_center.Models;
 using youtube_center.Repositories.Interface;
+using youtube_center.Services.Interface;
 
 namespace youtube_center.ViewModels.Components
 {
@@ -17,6 +19,8 @@ namespace youtube_center.ViewModels.Components
 
         private readonly IVideoRepository _videoRepository;
 
+        private readonly IYoutubeService _youtubeService;
+
         private ObservableCollection<Video> _videos = new ObservableCollection<Video>();
 
         private Video _selectedVideo;
@@ -25,10 +29,11 @@ namespace youtube_center.ViewModels.Components
 
         // 
 
-        public HomeViewModel(ISettingsRepository settingsRepository, IVideoRepository videoRepository)
+        public HomeViewModel(ISettingsRepository settingsRepository, IVideoRepository videoRepository, IYoutubeService youtubeService)
         {
             _settingsRepository = settingsRepository;
             _videoRepository = videoRepository;
+            _youtubeService = youtubeService;
 
             // https://www.youtube.com/subscription_manager
             // https://www.youtube.com/feeds/videos.xml?channel_id=UCtUbO6rBht0daVIOGML3c8w
@@ -37,6 +42,7 @@ namespace youtube_center.ViewModels.Components
             ContextCommand = new RelayCommand<string>(Context);
             MessengerInstance.Register<Request>(this, HandleRequest);
             LoadVideos();
+            Poll();
         }
 
         // 
@@ -128,5 +134,54 @@ namespace youtube_center.ViewModels.Components
             }
         }
 
+        private async void Poll()
+        {
+            var wait = DateTime.Now - _settingsRepository.LastChecked;
+            
+            if (wait.TotalMinutes >= 5)
+                await CheckForNewVideos();
+            
+            while (true)
+            {
+                // Update every 5 minutes
+                await Task.Delay(60 * 5 * 1000);
+                await CheckForNewVideos();
+            }
+        }
+
+        private async Task CheckForNewVideos()
+        {
+            var anyChanges = false;
+
+            foreach (var channel in _settingsRepository.Channels)
+            {
+                try
+                {
+                    // TODO: This is very expensive, fix this
+                    var newVideos = new List<Video>(await _youtubeService.RetrieveVideos(channel));
+                    newVideos = new List<Video>(newVideos.Where(video =>_videoRepository.Videos[channel.Id].All(v => video.Id != v.Id)));
+
+                    if (!anyChanges && newVideos.Any())
+                        anyChanges = true;
+
+                    var combined = _videoRepository.Videos[channel.Id].ToList();
+                    combined.AddRange(newVideos);
+
+                    _videoRepository.Videos[channel.Id] = combined.OrderByDescending(v => v.Uploaded);
+                    _videoRepository.Save();
+                }
+
+                catch
+                {
+
+                }
+            }
+
+            if (anyChanges)
+                LoadVideos();
+
+            _settingsRepository.LastChecked = DateTime.Now;
+            _settingsRepository.Save();
+        }
     }
 }
