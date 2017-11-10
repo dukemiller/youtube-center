@@ -42,8 +42,12 @@ namespace youtube_center.ViewModels.Components
             ManageCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Manage));
             ContextCommand = new RelayCommand<string>(Context);
             MessengerInstance.Register<Request>(this, HandleRequest);
-            LoadVideos();
-            Poll();
+
+            if (!IsInDesignMode)
+            {
+                LoadVideos();
+                Poll();
+            }
         }
 
         // 

@@ -57,7 +57,8 @@ namespace youtube_center.ViewModels.Components
                 () => File.Exists(Path)
             );
 
-            Channels = new ObservableCollection<Channel>(_settingsRepository.Channels.OrderBy(c => c.Name));
+            if (!IsInDesignMode)
+                Channels = new ObservableCollection<Channel>(_settingsRepository.Channels.OrderBy(c => c.Name));
         }
 
         //
