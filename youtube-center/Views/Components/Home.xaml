@@ -9,17 +9,23 @@
              d:DesignHeight="710" d:DesignWidth="1330">
     <DockPanel>
         <DockPanel Dock="Left" LastChildFill="False" Margin="8">
-            <Label DockPanel.Dock="Top" FontWeight="Bold">Videos</Label>
+            <Label DockPanel.Dock="Top" FontWeight="Bold" Content="Videos" />
             <controls:MetroAnimatedSingleRowTabControl DockPanel.Dock="Top"
                                                        TabStripPlacement="Left"
                                                        SelectedIndex="{Binding Index}">
                 <controls:MetroTabItem Header="Unwatched" />
                 <controls:MetroTabItem Header="Watched" />
             </controls:MetroAnimatedSingleRowTabControl>
+
+            <StackPanel DockPanel.Dock="Bottom">
+                <Label FontWeight="Bold" Content="Options" />
+                <Button Style="{DynamicResource SquareButtonStyle}" BorderThickness="2" BorderBrush="#3A3A3A" 
+                        FontSize="17" Content="Settings" />
+                <Button Style="{DynamicResource SquareButtonStyle}" BorderThickness="2" BorderBrush="#3A3A3A" 
+                        FontSize="17" Content="Channels" Command="{Binding ManageCommand}" />
+            </StackPanel>
         </DockPanel>
-        <DockPanel Dock="Bottom" LastChildFill="False" Margin="8">
-            <Button DockPanel.Dock="Right" Content="Manage channels" Command="{Binding ManageCommand}" />
-        </DockPanel>
+        
         <ListBox ItemsSource="{Binding Videos}"
                  SelectedItem="{Binding SelectedVideo}"
                  Background="#2B2B2B"
@@ -42,7 +48,7 @@
             </ListBox.ItemContainerStyle>
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid  Columns="3"/>
+                    <UniformGrid Columns="3"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>

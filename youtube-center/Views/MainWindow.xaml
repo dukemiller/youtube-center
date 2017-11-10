@@ -13,14 +13,6 @@
                       dialogs:DialogParticipation.Register="{Binding}"
                       Background="{StaticResource MenuBackgroundBrush}"
                       DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-                      Title="Youtube Center" Height="710" Width="1420">
-    <controls:MetroWindow.Resources>
-        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Focusable" Value="False"/>
-            <Setter Property="FontSize" Value="22"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        </Style>
-    </controls:MetroWindow.Resources>
-    <controls:TransitioningContentControl Content="{Binding Display}"/>
+                      Title="Youtube Center" Height="650" Width="1220">
+    <controls:TransitioningContentControl Content="{Binding Display}" Transition="LeftReplace" />
 </controls:MetroWindow>

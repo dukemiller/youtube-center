@@ -14,8 +14,8 @@
     <DockPanel Margin="8">
 
         <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
-            <Button DockPanel.Dock="Left" Content="Go back" Command="{Binding GoBackCommand}" />
-
+            <Button Style="{DynamicResource SquareButtonStyle}" BorderThickness="2" BorderBrush="#3A3A3A" FontSize="17"
+                Width="100" DockPanel.Dock="Left" Content="back" Command="{Binding GoBackCommand}" />
         </DockPanel>
 
         <Label FontWeight="Bold" DockPanel.Dock="Top">Add a single user</Label>
@@ -23,6 +23,8 @@
 
             <DockPanel>
                 <Button DockPanel.Dock="Right" VerticalAlignment="Center" Width="100" Content="Add"
+                        Style="{DynamicResource SquareButtonStyle}" BorderThickness="2" BorderBrush="#3A3A3A"
+                        FontSize="17"
                         Command="{Binding AddCommand}" />
                 <TextBox Margin="8" FontSize="22" controls:TextBoxHelper.Watermark="Channel URL: "
                          Text="{Binding Url, UpdateSourceTrigger=PropertyChanged}" />
@@ -30,7 +32,7 @@
 
         </StackPanel>
 
-        <Separator DockPanel.Dock="Top" Margin="5,10" />
+        <Separator DockPanel.Dock="Top" Margin="5,30" />
 
         <Label FontWeight="Bold" DockPanel.Dock="Top">Import your current subscriptions</Label>
         <DockPanel LastChildFill="False" DockPanel.Dock="Top" HorizontalAlignment="Stretch">
@@ -40,20 +42,25 @@
                 <Hyperlink Command="{Binding OpenSubscriptionsCommand}">this page</Hyperlink>
                 <TextBlock TextWrapping="Wrap">and scroll all the way to the bottom and click "export subscriptions". Then, select that file with the filebrowser below.</TextBlock>
             </TextBlock>
-            <DockPanel DockPanel.Dock="Top">
-                <Button DockPanel.Dock="Right" Content="Import" Margin="10,0" Command="{Binding ImportCommand}" />
-                <Button DockPanel.Dock="Right" Content="Browse ..." Margin="10,0,0,0" Command="{Binding FilebrowseCommand}" />
+            <DockPanel DockPanel.Dock="Top" Margin="0,5,0,0">
+                <Button DockPanel.Dock="Right" Content="Import" Margin="10,0" Command="{Binding ImportCommand}"
+                        Style="{DynamicResource SquareButtonStyle}" BorderThickness="2" BorderBrush="#3A3A3A"
+                        FontSize="17" />
+                <Button DockPanel.Dock="Right" Content="Browse ..." Margin="10,0,0,0"
+                        Command="{Binding FilebrowseCommand}"
+                        Style="{DynamicResource SquareButtonStyle}" BorderThickness="2" BorderBrush="#3A3A3A"
+                        FontSize="17" />
                 <TextBox FontSize="22" controls:TextBoxHelper.Watermark="Path to subscription export: "
                          Text="{Binding Path, UpdateSourceTrigger=PropertyChanged}" />
             </DockPanel>
 
         </DockPanel>
 
-        <Separator DockPanel.Dock="Top" Margin="5,15" />
+        <Separator DockPanel.Dock="Top" Margin="5,30" />
 
         <Label FontWeight="Bold" DockPanel.Dock="Top">All added channels</Label>
         <ListBox DockPanel.Dock="Top" VerticalContentAlignment="Center" HorizontalAlignment="Stretch"
-                 HorizontalContentAlignment="Center" 
+                 HorizontalContentAlignment="Center"
                  SelectedItem="{Binding SelectedChannel}"
                  ItemsSource="{Binding Channels}">
             <ListBox.ItemTemplate>
