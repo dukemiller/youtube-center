@@ -26,8 +26,10 @@ namespace youtube_center.Repositories
 
         // 
 
+        [JsonProperty("channels")]
         public List<Channel> Channels { get; set; } = new List<Channel>();
 
+        [JsonProperty("last_checked")]
         public DateTime LastChecked { get; set; }
 
         public void Save()
