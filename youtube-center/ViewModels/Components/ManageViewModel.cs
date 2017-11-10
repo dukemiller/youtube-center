@@ -144,7 +144,12 @@ namespace youtube_center.ViewModels.Components
                 Name = username,
                 Id = id
             };
-            _videoRepository.Videos[channel.Id] = new List<Video>(await _youtubeService.RetrieveVideos(channel));
+
+            // If importing, assume everything is already watched
+            var videos = (await _youtubeService.RetrieveVideos(channel)).ToList();
+            foreach (var video in videos)
+                video.Watched = true;
+            _videoRepository.Videos[channel.Id] = videos;
             await _youtubeService.ThumbnailCheck(channel, _videoRepository.VideosFor(channel));
 
             // Add to settings
@@ -187,7 +192,11 @@ namespace youtube_center.ViewModels.Components
                 // Get video, thumbnails
                 try
                 {
-                    _videoRepository.Videos[channel.Id] = new List<Video>(await _youtubeService.RetrieveVideos(channel));
+                    // If importing, assume everything is already watched
+                    var videos = (await _youtubeService.RetrieveVideos(channel)).ToList();
+                    foreach (var video in videos)
+                        video.Watched = true;
+                    _videoRepository.Videos[channel.Id] = videos;
                     await _youtubeService.ThumbnailCheck(channel, _videoRepository.VideosFor(channel));
                 }
 
