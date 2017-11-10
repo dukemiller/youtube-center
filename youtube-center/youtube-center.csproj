@@ -115,6 +115,10 @@
     <Compile Include="ViewModels\Components\ManageViewModel.cs" />
     <Compile Include="ViewModels\Components\HomeViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Page Include="Views\Components\Channel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Components\Manage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -138,6 +142,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\Components\Channel.xaml.cs">
+      <DependentUpon>Channel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Components\Manage.xaml.cs">
       <DependentUpon>Manage.xaml</DependentUpon>

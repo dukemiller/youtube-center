@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
