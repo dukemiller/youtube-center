@@ -95,12 +95,12 @@ namespace youtube_center.Services
 
         }
         
-        public async Task ThumbnailCheck(Channel channel)
+        public async Task ThumbnailCheck(Channel channel, IEnumerable<Video> videos)
         {
             if (!Directory.Exists(channel.ThumbnailPath))
                 Directory.CreateDirectory(channel.ThumbnailPath);
 
-            foreach (var video in channel.Videos)
+            foreach (var video in videos)
             {
                 var image = video.Thumbnail.Url;
                 var path = Path.Combine(channel.ThumbnailPath, $"{video.Id}.png");

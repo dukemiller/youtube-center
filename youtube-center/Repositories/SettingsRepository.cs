@@ -20,10 +20,7 @@ namespace youtube_center.Repositories
 
         [JsonIgnore]
         public static string SettingsPath => Path.Combine(ApplicationDirectory, "settings.json");
-
-        [JsonIgnore]
-        public static string ImageDirectory => Path.Combine(ApplicationDirectory, "thumbnails");
-
+        
         // 
 
         [JsonProperty("channels")]

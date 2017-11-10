@@ -19,6 +19,7 @@ namespace youtube_center.ViewModels.Components
     public class ManageViewModel : ViewModelBase
     {
         private readonly ISettingsRepository _settingsRepository;
+        private readonly IVideoRepository _videoRepository;
         private readonly IYoutubeService _youtubeService;
         private string _path;
         private ObservableCollection<Channel> _channels;
@@ -29,9 +30,10 @@ namespace youtube_center.ViewModels.Components
 
         //
 
-        public ManageViewModel(ISettingsRepository settingsRepository, IYoutubeService youtubeService)
+        public ManageViewModel(ISettingsRepository settingsRepository, IVideoRepository videoRepository, IYoutubeService youtubeService)
         {
             _settingsRepository = settingsRepository;
+            _videoRepository = videoRepository;
             _youtubeService = youtubeService;
 
             GoBackCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Home));
@@ -142,12 +144,13 @@ namespace youtube_center.ViewModels.Components
                 Name = username,
                 Id = id
             };
-            channel.Videos = new List<Video>(await _youtubeService.RetrieveVideos(channel));
-            await _youtubeService.ThumbnailCheck(channel);
+            _videoRepository.Videos[channel.Id] = new List<Video>(await _youtubeService.RetrieveVideos(channel));
+            await _youtubeService.ThumbnailCheck(channel, _videoRepository.VideosFor(channel));
 
             // Add to settings
             _settingsRepository.Channels.Add(channel);
             _settingsRepository.Save();
+            _videoRepository.Save();
 
             // Update listing
             Channels = new ObservableCollection<Channel>(_settingsRepository.Channels.OrderBy(c => c.Name));
@@ -184,8 +187,8 @@ namespace youtube_center.ViewModels.Components
                 // Get video, thumbnails
                 try
                 {
-                    channel.Videos = new List<Video>(await _youtubeService.RetrieveVideos(channel));
-                    await _youtubeService.ThumbnailCheck(channel);
+                    _videoRepository.Videos[channel.Id] = new List<Video>(await _youtubeService.RetrieveVideos(channel));
+                    await _youtubeService.ThumbnailCheck(channel, _videoRepository.VideosFor(channel));
                 }
 
                 catch
@@ -196,6 +199,7 @@ namespace youtube_center.ViewModels.Components
                 // Add to settings and save
                 _settingsRepository.Channels.Add(channel);
                 _settingsRepository.Save();
+                _videoRepository.Save();
             }
 
             // Save that there was an attempt now to find videos

@@ -19,6 +19,6 @@ namespace youtube_center.Services.Interface
         /// <summary>
         ///     Download the thumbnails locally for every video on the channel, if they dont exist.
         /// </summary>
-        Task ThumbnailCheck(Channel channel);
+        Task ThumbnailCheck(Channel channel, IEnumerable<Video> videos);
     }
 }

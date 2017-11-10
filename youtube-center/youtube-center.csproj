@@ -106,6 +106,8 @@
     <Compile Include="Models\Youtube\Thumbnails.cs" />
     <Compile Include="Models\Youtube\YoutubeResponse.cs" />
     <Compile Include="Repositories\Interface\ISettingsRepository.cs" />
+    <Compile Include="Repositories\Interface\IVideoRepository.cs" />
+    <Compile Include="Repositories\VideoRepository.cs" />
     <Compile Include="Repositories\SettingsRepository.cs" />
     <Compile Include="Services\Interface\IYoutubeService.cs" />
     <Compile Include="Services\YoutubeService.cs" />

@@ -14,15 +14,17 @@ namespace youtube_center.ViewModels.Components
     public class HomeViewModel : ViewModelBase
     {
         private readonly ISettingsRepository _settingsRepository;
+        private readonly IVideoRepository _videoRepository;
         private ObservableCollection<Video> _videos = new ObservableCollection<Video>();
         private Video _selectedVideo;
         private int _index;
 
         // 
 
-        public HomeViewModel(ISettingsRepository settingsRepository)
+        public HomeViewModel(ISettingsRepository settingsRepository, IVideoRepository videoRepository)
         {
             _settingsRepository = settingsRepository;
+            _videoRepository = videoRepository;
 
             // https://www.youtube.com/subscription_manager
             // https://www.youtube.com/feeds/videos.xml?channel_id=UCtUbO6rBht0daVIOGML3c8w
@@ -90,7 +92,7 @@ namespace youtube_center.ViewModels.Components
 
                 case "mark":
                     SelectedVideo.Watched ^= true;
-                    _settingsRepository.Save();
+                    _videoRepository.Save();
                     LoadVideos();
                     break;
             }
@@ -102,7 +104,8 @@ namespace youtube_center.ViewModels.Components
             {
                 Videos = new ObservableCollection<Video>(
                     _settingsRepository
-                        .Channels.SelectMany(channel => channel.Videos)
+                        .Channels
+                        .SelectMany(_videoRepository.VideosFor)
                         .Where(video => Index == 1 ? video.Watched : Index == 0 && !video.Watched)
                         .OrderByDescending(video => video.Uploaded).ThenBy(video => video.Title)
                 );
