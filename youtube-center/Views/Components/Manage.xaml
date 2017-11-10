@@ -32,11 +32,12 @@
 
         </StackPanel>
 
-        <Separator DockPanel.Dock="Top" Margin="5,30" />
+        <Separator DockPanel.Dock="Top" Margin="5,20" />
 
         <Label FontWeight="Bold" DockPanel.Dock="Top">Import your current subscriptions</Label>
         <DockPanel LastChildFill="False" DockPanel.Dock="Top" HorizontalAlignment="Stretch">
             <TextBlock VerticalAlignment="Center" DockPanel.Dock="Top" TextWrapping="Wrap" Foreground="White"
+                       FontSize="18"
                        Margin="0,8">
                 <TextBlock>Go to</TextBlock>
                 <Hyperlink Command="{Binding OpenSubscriptionsCommand}">this page</Hyperlink>
@@ -56,13 +57,21 @@
 
         </DockPanel>
 
-        <Separator DockPanel.Dock="Top" Margin="5,30" />
+        <Separator DockPanel.Dock="Top" Margin="5,20" />
 
         <Label FontWeight="Bold" DockPanel.Dock="Top">All added channels</Label>
-        <ListBox DockPanel.Dock="Top" VerticalContentAlignment="Center" HorizontalAlignment="Stretch"
-                 HorizontalContentAlignment="Center"
+        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  SelectedItem="{Binding SelectedChannel}"
                  ItemsSource="{Binding Channels}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="Background" Value="#2B2B2B"/>
+                    <Setter Property="BorderThickness" Value="4"/>
+                    <Setter Property="BorderBrush" Value="#161616"/>
+                    <Setter Property="MinWidth" Value="100"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel />
