@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              DataContext="{Binding Source={StaticResource Locator}, Path=Add}"
              mc:Ignorable="d"
+             dialogs:DialogParticipation.Register="{Binding}"
              TextElement.FontSize="22"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"

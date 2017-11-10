@@ -113,18 +113,27 @@ namespace youtube_center.ViewModels.Components
         
         private async void Add()
         {
+            // Setup dialog
+            var dialog = SimpleIoc.Default.GetInstance<IDialogCoordinator>();
+            var controller = await dialog.ShowProgressAsync(this, "Loading", "Adding youtube url to settings ...");
+            controller.SetIndeterminate();
+
             // Retrieve details
             var (successful, username, id) = await _youtubeService.FindDetails(Url);
 
             // Convey an error at some point
             if (!successful)
             {
+                await controller.CloseAsync();
+                await dialog.ShowMessageAsync(this, "Error", "An error occured trying to add the given channel.");
                 return;
             }
 
             // Only add if it doesn't already exist
             if (_settingsRepository.Channels.Any(c => c.Name == username))
             {
+                await controller.CloseAsync();
+                await dialog.ShowMessageAsync(this, "Error", "This channel already exists.");
                 return;
             }
 
@@ -145,10 +154,16 @@ namespace youtube_center.ViewModels.Components
             Channels = new ObservableCollection<Channel>(_settingsRepository.Channels.OrderBy(c => c.Name));
             MessengerInstance.Send(Request.Refresh);
             Url = "";
+            await controller.CloseAsync();
         }
 
         private async void Import()
         {
+            // Setup dialog
+            var dialog = SimpleIoc.Default.GetInstance<IDialogCoordinator>();
+            var controller = await dialog.ShowProgressAsync(this, "Loading", "Importing all given channels ...");
+            controller.SetIndeterminate();
+
             // Load file and parse
             var text = File.ReadAllText(Path);
 
@@ -191,6 +206,7 @@ namespace youtube_center.ViewModels.Components
             // Update listing
             Channels = new ObservableCollection<Channel>(_settingsRepository.Channels.OrderBy(c => c.Name));
             MessengerInstance.Send(Request.Refresh);
+            await controller.CloseAsync();
         }
 
         private void Context(string token)
