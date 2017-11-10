@@ -190,7 +190,10 @@ namespace youtube_center.ViewModels.Components
             }
 
             if (anyChanges)
+            {
                 LoadVideos();
+                Console.Beep(); // TODO: Replace this with an async sound method later
+            }
 
             _settingsRepository.LastChecked = DateTime.Now;
             _settingsRepository.Save();
