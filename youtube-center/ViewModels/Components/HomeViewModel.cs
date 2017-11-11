@@ -26,6 +26,7 @@ namespace youtube_center.ViewModels.Components
         private Video _selectedVideo;
 
         private int _index;
+
         private bool _loading;
 
         // 
@@ -128,7 +129,8 @@ namespace youtube_center.ViewModels.Components
                         .Channels
                         .SelectMany(_videoRepository.VideosFor)
                         .Where(video => Index == 1 ? video.Watched : Index == 0 && !video.Watched)
-                        .OrderByDescending(video => video.Uploaded).ThenBy(video => video.Title)
+                        .OrderByDescending(video => video.Uploaded)
+                        .ThenBy(video => video.Title)
                 );
             });
         }
@@ -169,17 +171,31 @@ namespace youtube_center.ViewModels.Components
             {
                 try
                 {
-                    // TODO: This is very expensive, fix this
-                    var newVideos = new List<Video>(await _youtubeService.RetrieveVideos(channel));
-                    newVideos = new List<Video>(newVideos.Where(video =>_videoRepository.Videos[channel.Id].All(v => video.Id != v.Id)));
+                    var videos = new List<Video>();
 
-                    if (!anyChanges && newVideos.Any())
-                        anyChanges = true;
+                    // I have to replace and update the videos, because the viewcount / whatever always changes
+                    foreach (var video in await _youtubeService.RetrieveVideos(channel))
+                    {
+                        var stored = _videoRepository.Videos[channel.Id].FirstOrDefault(v => video.Id == v.Id);
+                        bool watched;
 
-                    var combined = _videoRepository.Videos[channel.Id].ToList();
-                    combined.AddRange(newVideos);
+                        // This is a new video, mark as watched
+                        if (stored == null)
+                        {
+                            if (!anyChanges)
+                                anyChanges = true;
+                            watched = false;
+                        }
 
-                    _videoRepository.Videos[channel.Id] = combined.OrderByDescending(v => v.Uploaded);
+                        // Preserve old status
+                        else
+                            watched = stored.Watched;
+
+                        video.Watched = watched;
+                        videos.Add(video);
+                    }
+
+                    _videoRepository.Videos[channel.Id] = videos.OrderByDescending(v => v.Uploaded);
                     _videoRepository.Save();
                 }
 
