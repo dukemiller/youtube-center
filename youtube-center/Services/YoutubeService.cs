@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
 using youtube_center.Classes;
@@ -42,6 +44,7 @@ namespace youtube_center.Services
                 var url = new Uri($@"https://www.youtube.com/feeds/videos.xml?channel_id={channel.Id}");
                 using (var client = new WebClient())
                 {
+                    client.Encoding = Encoding.UTF8;
                     var xml = await client.DownloadStringTaskAsync(url);
                     document.LoadHtml(xml);
                 }
@@ -125,7 +128,7 @@ namespace youtube_center.Services
         {
             var id = node.SelectSingleNode(".//*[name()='yt:videoid']").InnerText;
 
-            var title = node.SelectSingleNode(".//*[name()='media:title']").InnerText;
+            var title = HttpUtility.HtmlDecode(node.SelectSingleNode(".//*[name()='media:title']").InnerText);
 
             var author = new Author
             {
@@ -133,7 +136,7 @@ namespace youtube_center.Services
                 ChannelUrl = node.SelectSingleNode("author/uri").InnerText
             };
 
-            var description = node.SelectSingleNode(".//*[name()='media:description']").InnerText;
+            var description = HttpUtility.HtmlDecode(node.SelectSingleNode(".//*[name()='media:description']").InnerText);
 
             var views = int.TryParse(node.SelectSingleNode(".//*[name()='media:statistics']").Attributes["views"].Value, out var viewsResult)
                 ? viewsResult
