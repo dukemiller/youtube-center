@@ -10,8 +10,8 @@ namespace youtube_center.Models
     public class Channel: ObservableObject
     {
         private string _id = string.Empty;
+
         private string _name = string.Empty;
-        private string _url = string.Empty;
 
         // 
 
@@ -29,14 +29,10 @@ namespace youtube_center.Models
             set => Set(() => Name, ref _name, value);
         }
 
-        [JsonProperty("url")]
-        public string Url
-        {
-            get => _url;
-            set => Set(() => Url, ref _url, value);
-        }
-
         // 
+
+        [JsonIgnore]
+        public string Url => $"https://www.youtube.com/channel/{Id}";
 
         [JsonIgnore]
         public string ThumbnailPath => Path.Combine(VideoRepository.ImageDirectory, Id);

@@ -188,8 +188,7 @@ namespace youtube_center.ViewModels.Components
                 var channel = new Channel
                 {
                     Name = name,
-                    Id = id,
-                    Url = $"https://www.youtube.com/channel/{id}"
+                    Id = id
                 };
 
                 // Only add if it doesn't already exist
