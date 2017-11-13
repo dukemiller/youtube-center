@@ -138,7 +138,6 @@ namespace youtube_center.ViewModels.Components
                     Context("streamlink");
                     break;
                 case DoubleClickAction.CopyToClipboard:
-
                     break;
             }
         }
@@ -230,7 +229,8 @@ namespace youtube_center.ViewModels.Components
             if (anyChanges)
             {
                 LoadVideos();
-                Console.Beep(); // TODO: Replace this with an async sound method later
+                if (_settingsRepository.SoundOnNew)
+                    Console.Beep(); // TODO: Replace this with an async sound method later
             }
 
             _settingsRepository.LastChecked = DateTime.Now;

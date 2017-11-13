@@ -34,7 +34,7 @@ namespace youtube_center.Repositories
         public DoubleClickAction DoubleClickAction { get; set; }
 
         [JsonProperty("sound_on_new")]
-        public bool SoundOnNew { get; set; }
+        public bool SoundOnNew { get; set; } = true;
 
         public void Save()
         {
