@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using youtube_center.Enums;
 using youtube_center.Models;
 using youtube_center.Repositories.Interface;
 
@@ -28,6 +29,12 @@ namespace youtube_center.Repositories
 
         [JsonProperty("last_checked")]
         public DateTime LastChecked { get; set; }
+
+        [JsonProperty("doubleclick_action")]
+        public DoubleClickAction DoubleClickAction { get; set; }
+
+        [JsonProperty("sound_on_new")]
+        public bool SoundOnNew { get; set; }
 
         public void Save()
         {
