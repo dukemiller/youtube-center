@@ -17,11 +17,10 @@
                 <controls:MetroTabItem Header="Unwatched" />
                 <controls:MetroTabItem Header="Watched" />
             </controls:MetroAnimatedSingleRowTabControl>
-
             <StackPanel DockPanel.Dock="Bottom">
                 <Label FontWeight="Bold" Content="Options" />
                 <Button Style="{DynamicResource SquareButtonStyle}" BorderThickness="2" BorderBrush="#3A3A3A"
-                        FontSize="17" Content="Settings" />
+                        FontSize="17" Content="Settings" Command="{Binding SettingsCommand}" />
                 <Button Style="{DynamicResource SquareButtonStyle}" BorderThickness="2" BorderBrush="#3A3A3A"
                         FontSize="17" Content="Channels" Command="{Binding ManageCommand}" />
             </StackPanel>

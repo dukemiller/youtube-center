@@ -31,7 +31,8 @@ namespace youtube_center.ViewModels.Components
 
         // 
 
-        public HomeViewModel(ISettingsRepository settingsRepository, IVideoRepository videoRepository, IYoutubeService youtubeService)
+        public HomeViewModel(ISettingsRepository settingsRepository, IVideoRepository videoRepository,
+            IYoutubeService youtubeService)
         {
             _settingsRepository = settingsRepository;
             _videoRepository = videoRepository;
@@ -41,6 +42,7 @@ namespace youtube_center.ViewModels.Components
             // https://www.youtube.com/feeds/videos.xml?channel_id=UCtUbO6rBht0daVIOGML3c8w
 
             ManageCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Manage));
+            SettingsCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Settings));
             ContextCommand = new RelayCommand<string>(Context);
             MessengerInstance.Register<Request>(this, HandleRequest);
 
@@ -64,8 +66,10 @@ namespace youtube_center.ViewModels.Components
             get => _selectedVideo;
             set => Set(() => SelectedVideo, ref _selectedVideo, value);
         }
-        
+
         public RelayCommand ManageCommand { get; set; }
+
+        public RelayCommand SettingsCommand { get; set; }
 
         public RelayCommand<string> ContextCommand { get; set; }
 
@@ -150,10 +154,10 @@ namespace youtube_center.ViewModels.Components
         private async void Poll()
         {
             var wait = DateTime.Now - _settingsRepository.LastChecked;
-            
+
             if (wait.TotalMinutes >= 5)
                 await CheckForNewVideos();
-            
+
             while (true)
             {
                 // Update every 5 minutes
@@ -201,7 +205,6 @@ namespace youtube_center.ViewModels.Components
 
                 catch
                 {
-
                 }
             }
 

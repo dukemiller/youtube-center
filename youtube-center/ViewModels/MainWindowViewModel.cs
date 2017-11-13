@@ -39,6 +39,9 @@ namespace youtube_center.ViewModels
                 case ComponentView.Manage:
                     Display = SimpleIoc.Default.GetInstance<ManageViewModel>();
                     break;
+                case ComponentView.Settings:
+                    Display = SimpleIoc.Default.GetInstance<SettingsViewModel>();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(_), _, null);
             }

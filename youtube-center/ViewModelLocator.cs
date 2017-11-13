@@ -25,12 +25,14 @@ namespace youtube_center
             // Viewmodels
             SimpleIoc.Default.Register<MainWindowViewModel>();
             SimpleIoc.Default.Register<ManageViewModel>();
+            SimpleIoc.Default.Register<SettingsViewModel>();
             SimpleIoc.Default.Register<HomeViewModel>();
         }
 
         public static MainWindowViewModel Main => ServiceLocator.Current.GetInstance<MainWindowViewModel>();
         public static HomeViewModel Home => ServiceLocator.Current.GetInstance<HomeViewModel>();
         public static ManageViewModel Manage => ServiceLocator.Current.GetInstance<ManageViewModel>();
+        public static SettingsViewModel Settings => ServiceLocator.Current.GetInstance<SettingsViewModel>();
 
     }
 }

@@ -126,6 +126,7 @@
     <Compile Include="ViewModelLocator.cs" />
     <Compile Include="ViewModels\Components\ManageViewModel.cs" />
     <Compile Include="ViewModels\Components\HomeViewModel.cs" />
+    <Compile Include="ViewModels\Components\SettingsViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Page Include="Views\Components\Channel.xaml">
       <SubType>Designer</SubType>

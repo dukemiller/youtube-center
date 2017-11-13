@@ -3,6 +3,7 @@
     public enum ComponentView
     {
         Home,
-        Manage
+        Manage,
+        Settings
     }
 }

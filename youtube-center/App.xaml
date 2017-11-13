@@ -6,6 +6,7 @@
              xmlns:vmComponents="clr-namespace:youtube_center.ViewModels.Components"
              xmlns:components="clr-namespace:youtube_center.Views.Components"
              xmlns:models="clr-namespace:youtube_center.Models"
+             xmlns:xaml="clr-namespace:youtube_center.Classes.Xaml"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -29,6 +30,10 @@
             
             <DataTemplate DataType="{x:Type vmComponents:ManageViewModel}">
                 <components:Manage />
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type vmComponents:SettingsViewModel}">
+                <components:Settings />
             </DataTemplate>
             
             <DataTemplate DataType="{x:Type models:Video}">
