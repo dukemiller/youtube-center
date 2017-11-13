@@ -97,6 +97,7 @@
     <Compile Include="Classes\ApiKeys.cs" />
     <Compile Include="Classes\ApiKeysLocal.cs" />
     <Compile Include="Classes\Converters.cs" />
+    <Compile Include="Classes\Extensions.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\Xaml\InputBindingsBehavior.cs" />
     <Compile Include="Classes\Xaml\VirtualizingWrapPanel.cs" />
