@@ -44,6 +44,7 @@ namespace youtube_center.ViewModels.Components
             ManageCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Manage));
             SettingsCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Settings));
             ContextCommand = new RelayCommand<string>(Context);
+            DoubleClickCommand = new RelayCommand(DoubleClick);
             MessengerInstance.Register<Request>(this, HandleRequest);
 
             if (!IsInDesignMode)
@@ -70,6 +71,8 @@ namespace youtube_center.ViewModels.Components
         public RelayCommand ManageCommand { get; set; }
 
         public RelayCommand SettingsCommand { get; set; }
+
+        public RelayCommand DoubleClickCommand { get; set; }
 
         public RelayCommand<string> ContextCommand { get; set; }
 
@@ -120,6 +123,22 @@ namespace youtube_center.ViewModels.Components
                     SelectedVideo.Watched ^= true;
                     _videoRepository.Save();
                     LoadVideos();
+                    break;
+            }
+        }
+
+        private void DoubleClick()
+        {
+            switch (_settingsRepository.DoubleClickAction)
+            {
+                case DoubleClickAction.Youtube:
+                    Context("youtube");
+                    break;
+                case DoubleClickAction.Streamlink:
+                    Context("streamlink");
+                    break;
+                case DoubleClickAction.CopyToClipboard:
+
                     break;
             }
         }

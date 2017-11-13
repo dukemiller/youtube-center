@@ -38,6 +38,7 @@
                 SelectedItem="{Binding SelectedVideo}"
                 Background="#2B2B2B"
                 IsTabStop="False"
+                Focusable="False"
                 VerticalAlignment="Stretch"
                 VerticalContentAlignment="Top"
                 HorizontalAlignment="Stretch"

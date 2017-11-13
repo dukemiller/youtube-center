@@ -98,6 +98,7 @@
     <Compile Include="Classes\ApiKeysLocal.cs" />
     <Compile Include="Classes\Converters.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
+    <Compile Include="Classes\Xaml\InputBindingsBehavior.cs" />
     <Compile Include="Classes\Xaml\VirtualizingWrapPanel.cs" />
     <Compile Include="Enums\ComponentView.cs" />
     <Compile Include="Enums\DoubleClickAction.cs" />

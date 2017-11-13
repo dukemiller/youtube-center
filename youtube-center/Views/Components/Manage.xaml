@@ -61,6 +61,7 @@
 
         <Label FontWeight="Bold" DockPanel.Dock="Top">All added channels</Label>
         <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 Margin="8"
                  SelectedItem="{Binding SelectedChannel}"
                  ItemsSource="{Binding Channels}">
             <ListBox.ItemContainerStyle>
