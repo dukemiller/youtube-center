@@ -175,7 +175,7 @@ namespace youtube_center.ViewModels.Components
         {
             // Setup dialog
             var dialog = SimpleIoc.Default.GetInstance<IDialogCoordinator>();
-            var controller = await dialog.ShowProgressAsync(this, "Loading", "Importing all given channels ...");
+            var controller = await dialog.ShowProgressAsync(this, "Loading", "Importing all given channels, this will take awhile ...");
             controller.SetIndeterminate();
 
             // Load file and parse
