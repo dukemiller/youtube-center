@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using youtube_center.Enums;
@@ -115,8 +116,8 @@ namespace youtube_center.ViewModels.Components
                     var cmd = new Process {StartInfo = info};
                     cmd.Start();
                     cmd.StandardInput.WriteLine($"streamlink {SelectedVideo.Url} best");
-                    cmd.StandardInput.Flush();
-                    cmd.StandardInput.Close();
+                    // cmd.StandardInput.Flush();
+                    // cmd.StandardInput.Close();
                     break;
 
                 case "mark":
@@ -135,9 +136,13 @@ namespace youtube_center.ViewModels.Components
                     Context("youtube");
                     break;
                 case DoubleClickAction.Streamlink:
+                    Console.Beep();
                     Context("streamlink");
                     break;
                 case DoubleClickAction.CopyToClipboard:
+                    Console.Beep();
+                    Clipboard.Clear();
+                    Clipboard.SetText(SelectedVideo.Url);
                     break;
             }
         }
