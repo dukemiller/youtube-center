@@ -15,7 +15,6 @@ namespace youtube_center.ViewModels
         public MainWindowViewModel()
         {
             Display = SimpleIoc.Default.GetInstance<HomeViewModel>();
-
             MessengerInstance.Register<ComponentView>(this, HandleComponentView);
         }
 

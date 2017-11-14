@@ -43,10 +43,7 @@ namespace youtube_center.ViewModels.Components
             _channelRepository = channelRepository;
             _videoRepository = videoRepository;
             _youtubeService = youtubeService;
-
-            // https://www.youtube.com/subscription_manager
-            // https://www.youtube.com/feeds/videos.xml?channel_id=UCtUbO6rBht0daVIOGML3c8w
-
+            
             ManageCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Manage));
             SettingsCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Settings));
             ContextCommand = new RelayCommand<string>(Context);

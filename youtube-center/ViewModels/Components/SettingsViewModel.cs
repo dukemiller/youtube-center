@@ -19,9 +19,10 @@ namespace youtube_center.ViewModels.Components
         public SettingsViewModel(ISettingsRepository settingsRepository)
         {
             _settingsRepository = settingsRepository;
-            GoBackCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Home));
             _clickAction = _settingsRepository.DoubleClickAction;
             _sound = _settingsRepository.SoundOnNew;
+
+            GoBackCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Home));
         }
 
         // 
