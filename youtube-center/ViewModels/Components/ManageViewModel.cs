@@ -18,7 +18,7 @@ namespace youtube_center.ViewModels.Components
 {
     public class ManageViewModel : ViewModelBase
     {
-        private readonly ISettingsRepository _settingsRepository;
+        private readonly IChannelRepository _channelRepository;
 
         private readonly IVideoRepository _videoRepository;
 
@@ -36,9 +36,11 @@ namespace youtube_center.ViewModels.Components
 
         //
 
-        public ManageViewModel(ISettingsRepository settingsRepository, IVideoRepository videoRepository, IYoutubeService youtubeService)
+        public ManageViewModel(IChannelRepository channelRepository,
+            IVideoRepository videoRepository, 
+            IYoutubeService youtubeService)
         {
-            _settingsRepository = settingsRepository;
+            _channelRepository = channelRepository;
             _videoRepository = videoRepository;
             _youtubeService = youtubeService;
 
@@ -58,7 +60,7 @@ namespace youtube_center.ViewModels.Components
             );
 
             if (!IsInDesignMode)
-                Channels = new ObservableCollection<Channel>(_settingsRepository.Channels.OrderBy(c => c.Name));
+                Channels = new ObservableCollection<Channel>(_channelRepository.Channels.OrderBy(c => c.Name));
         }
 
         //
@@ -138,7 +140,7 @@ namespace youtube_center.ViewModels.Components
             }
 
             // Only add if it doesn't already exist
-            if (_settingsRepository.Channels.Any(c => c.Name == username))
+            if (_channelRepository.Channels.Any(c => c.Name == username))
             {
                 await controller.CloseAsync();
                 await dialog.ShowMessageAsync(this, "Error", "This channel already exists.");
@@ -160,12 +162,12 @@ namespace youtube_center.ViewModels.Components
             await _youtubeService.ThumbnailCheck(channel, _videoRepository.VideosFor(channel));
 
             // Add to settings
-            _settingsRepository.Channels.Add(channel);
-            _settingsRepository.Save();
+            _channelRepository.Channels.Add(channel);
+            _channelRepository.Save();
             _videoRepository.Save();
 
             // Update listing
-            Channels = new ObservableCollection<Channel>(_settingsRepository.Channels.OrderBy(c => c.Name));
+            Channels = new ObservableCollection<Channel>(_channelRepository.Channels.OrderBy(c => c.Name));
             MessengerInstance.Send(Request.Refresh);
             Url = "";
             await controller.CloseAsync();
@@ -192,7 +194,7 @@ namespace youtube_center.ViewModels.Components
                 };
 
                 // Only add if it doesn't already exist
-                if (_settingsRepository.Channels.Any(c => c.Name == name))
+                if (_channelRepository.Channels.Any(c => c.Name == name))
                     continue;
 
                 // Get video, thumbnails
@@ -212,17 +214,17 @@ namespace youtube_center.ViewModels.Components
                 }
 
                 // Add to settings and save
-                _settingsRepository.Channels.Add(channel);
-                _settingsRepository.Save();
+                _channelRepository.Channels.Add(channel);
+                _channelRepository.Save();
                 _videoRepository.Save();
             }
 
             // Save that there was an attempt now to find videos
-            _settingsRepository.LastChecked = DateTime.Now;
-            _settingsRepository.Save();
+            _channelRepository.LastChecked = DateTime.Now;
+            _channelRepository.Save();
 
             // Update listing
-            Channels = new ObservableCollection<Channel>(_settingsRepository.Channels.OrderBy(c => c.Name));
+            Channels = new ObservableCollection<Channel>(_channelRepository.Channels.OrderBy(c => c.Name));
             MessengerInstance.Send(Request.Refresh);
             await controller.CloseAsync();
         }
@@ -232,9 +234,9 @@ namespace youtube_center.ViewModels.Components
             switch (token)
             {
                 case "remove":
-                    var channels = _settingsRepository.Channels;
-                    _settingsRepository.Channels.Remove(channels.First(c => c.Id == SelectedChannel.Id));
-                    _settingsRepository.Save();
+                    var channels = _channelRepository.Channels;
+                    _channelRepository.Channels.Remove(channels.First(c => c.Id == SelectedChannel.Id));
+                    _channelRepository.Save();
                     Channels.Remove(SelectedChannel);
                     MessengerInstance.Send(Request.Refresh);
                     break;

@@ -17,6 +17,7 @@ namespace youtube_center
 
             // Repositories
             SimpleIoc.Default.Register<ISettingsRepository>(SettingsRepository.Load);
+            SimpleIoc.Default.Register<IChannelRepository>(ChannelRepository.Load);
             SimpleIoc.Default.Register<IVideoRepository>(VideoRepository.Load);
 
             // Services

@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using youtube_center.Enums;
-using youtube_center.Models;
+﻿using youtube_center.Enums;
 
 namespace youtube_center.Repositories.Interface
 {
     public interface ISettingsRepository
     {
         /// <summary>
-        ///     All channeled added by user and parsed back.
+        ///     The action to commit when double clicking a video.
         /// </summary>
-        List<Channel> Channels { get; set; }
-
-        /// <summary>
-        ///     Last time the video sources were checked.
-        /// </summary>
-        DateTime LastChecked { get; set; }
-
         DoubleClickAction DoubleClickAction { get; set; }
 
+        /// <summary>
+        ///     Play a sound on receiving new videos.
+        /// </summary>
         bool SoundOnNew { get; set; }
 
         /// <summary>

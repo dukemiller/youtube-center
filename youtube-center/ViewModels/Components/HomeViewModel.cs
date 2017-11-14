@@ -18,6 +18,8 @@ namespace youtube_center.ViewModels.Components
     {
         private readonly ISettingsRepository _settingsRepository;
 
+        private readonly IChannelRepository _channelRepository;
+
         private readonly IVideoRepository _videoRepository;
 
         private readonly IYoutubeService _youtubeService;
@@ -32,10 +34,13 @@ namespace youtube_center.ViewModels.Components
 
         // 
 
-        public HomeViewModel(ISettingsRepository settingsRepository, IVideoRepository videoRepository,
+        public HomeViewModel(ISettingsRepository settingsRepository, 
+            IChannelRepository channelRepository,
+            IVideoRepository videoRepository,
             IYoutubeService youtubeService)
         {
             _settingsRepository = settingsRepository;
+            _channelRepository = channelRepository;
             _videoRepository = videoRepository;
             _youtubeService = youtubeService;
 
@@ -152,7 +157,7 @@ namespace youtube_center.ViewModels.Components
             await Task.Run(() =>
             {
                 Videos = new ObservableCollection<Video>(
-                    _settingsRepository
+                    _channelRepository
                         .Channels
                         .SelectMany(_videoRepository.VideosFor)
                         .Where(video => Index == 1 ? video.Watched : Index == 0 && !video.Watched)
@@ -176,7 +181,7 @@ namespace youtube_center.ViewModels.Components
 
         private async void Poll()
         {
-            var wait = DateTime.Now - _settingsRepository.LastChecked;
+            var wait = DateTime.Now - _channelRepository.LastChecked;
 
             if (wait.TotalMinutes >= 5)
                 await CheckForNewVideos();
@@ -194,7 +199,7 @@ namespace youtube_center.ViewModels.Components
             Loading = true;
             var anyChanges = false;
 
-            foreach (var channel in _settingsRepository.Channels)
+            foreach (var channel in _channelRepository.Channels)
             {
                 try
                 {
@@ -238,8 +243,8 @@ namespace youtube_center.ViewModels.Components
                     Console.Beep(); // TODO: Replace this with an async sound method later
             }
 
-            _settingsRepository.LastChecked = DateTime.Now;
-            _settingsRepository.Save();
+            _channelRepository.LastChecked = DateTime.Now;
+            _channelRepository.Save();
             Loading = false;
         }
     }

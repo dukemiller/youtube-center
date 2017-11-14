@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using youtube_center.Enums;
+using youtube_center.Models;
 using youtube_center.Repositories.Interface;
 
 namespace youtube_center.Repositories
 {
     [Serializable]
-    public class SettingsRepository: ISettingsRepository
+    public class ChannelRepository: IChannelRepository
     {
         /// <summary>
         ///     The path to the folder containing all settings and configuration files.
@@ -18,35 +19,34 @@ namespace youtube_center.Repositories
             "youtube_center");
 
         [JsonIgnore]
-        public static string SettingsPath => Path.Combine(ApplicationDirectory, "settings.json");
-        
+        public static string ChannelsPath => Path.Combine(ApplicationDirectory, "channels.json");
+
         // 
 
-        [JsonProperty("doubleclick_action")]
-        public DoubleClickAction DoubleClickAction { get; set; }
+        [JsonProperty("last_checked")]
+        public DateTime LastChecked { get; set; }
 
-        [JsonProperty("sound_on_new")]
-        public bool SoundOnNew { get; set; } = true;
-
+        [JsonProperty("channels")]
+        public List<Channel> Channels { get; set; } = new List<Channel>();
+        
         public void Save()
         {
-            using (var stream = new StreamWriter(SettingsPath))
+            using (var stream = new StreamWriter(ChannelsPath))
                 stream.Write(JsonConvert.SerializeObject(this, Formatting.Indented));
         }
 
         // 
 
-        public static SettingsRepository Load()
+        public static ChannelRepository Load()
         {
             if (!Directory.Exists(ApplicationDirectory))
                 Directory.CreateDirectory(ApplicationDirectory);
 
-            if (File.Exists(SettingsPath))
-                using (var stream = new StreamReader(SettingsPath))
-                    return JsonConvert.DeserializeObject<SettingsRepository>(stream.ReadToEnd());
+            if (File.Exists(ChannelsPath))
+                using (var stream = new StreamReader(ChannelsPath))
+                    return JsonConvert.DeserializeObject<ChannelRepository>(stream.ReadToEnd());
 
-            return new SettingsRepository();
+            return new ChannelRepository();
         }
-        
     }
 }

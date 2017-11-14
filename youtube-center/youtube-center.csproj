@@ -120,6 +120,8 @@
     <Compile Include="Models\Youtube\Snippet.cs" />
     <Compile Include="Models\Youtube\Thumbnails.cs" />
     <Compile Include="Models\Youtube\YoutubeResponse.cs" />
+    <Compile Include="Repositories\ChannelRepository.cs" />
+    <Compile Include="Repositories\Interface\IChannelRepository.cs" />
     <Compile Include="Repositories\Interface\ISettingsRepository.cs" />
     <Compile Include="Repositories\Interface\IVideoRepository.cs" />
     <Compile Include="Repositories\VideoRepository.cs" />
