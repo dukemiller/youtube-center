@@ -54,7 +54,7 @@ namespace youtube_center.ViewModels.Components
 
             ImportCommand = new RelayCommand(
                 Import,
-                () => File.Exists(Path)
+                () => File.Exists(Path) && Path.EndsWith("subscription_manager")
             );
 
             if (!IsInDesignMode)
