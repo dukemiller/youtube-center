@@ -163,7 +163,7 @@ namespace youtube_center.ViewModels.Components
             // Add to settings
             _channelRepository.Channels.Add(channel);
             _channelRepository.Save();
-            _videoRepository.Save();
+            await _videoRepository.Save();
 
             // Update listing
             Channels = new ObservableCollection<Channel>(_channelRepository.Channels.OrderBy(c => c.Name));
@@ -215,7 +215,7 @@ namespace youtube_center.ViewModels.Components
                 // Add to settings and save
                 _channelRepository.Channels.Add(channel);
                 _channelRepository.Save();
-                _videoRepository.Save();
+                await _videoRepository.Save();
             }
 
             // Save that there was an attempt now to find videos

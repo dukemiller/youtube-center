@@ -155,7 +155,7 @@ namespace youtube_center.ViewModels.Components
                     if (replacement != null)
                         CurrentVideoPage.Add(replacement);
 
-                    _videoRepository.Save();
+                    await _videoRepository.Save();
                     break;
             }
         }
@@ -274,7 +274,7 @@ namespace youtube_center.ViewModels.Components
                     }
 
                     _videoRepository.Videos[channel.Id] = videos.OrderByDescending(v => v.Uploaded);
-                    _videoRepository.Save();
+                    await _videoRepository.Save();
                 }
 
                 catch
