@@ -4,6 +4,7 @@ using System.Windows.Input;
 
 namespace youtube_center.Classes.Xaml
 {
+
     // https://stackoverflow.com/questions/23316274/inputbindings-work-only-when-focused
     public class InputBindingBehavior
     {
@@ -39,6 +40,7 @@ namespace youtube_center.Classes.Xaml
             {
                 switch (input)
                 {
+                    // case MouseBinding _:
                     case KeyBinding _:
                         window.InputBindings.Add(input);
                         frameworkElement.InputBindings.Remove(input);

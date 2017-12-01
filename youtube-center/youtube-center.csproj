@@ -100,7 +100,6 @@
     <Compile Include="Classes\Extensions.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\Xaml\InputBindingsBehavior.cs" />
-    <Compile Include="Classes\Xaml\VirtualizingWrapPanel.cs" />
     <Compile Include="Enums\ComponentView.cs" />
     <Compile Include="Enums\DoubleClickAction.cs" />
     <Compile Include="Enums\Request.cs" />
