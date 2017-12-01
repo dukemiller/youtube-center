@@ -43,7 +43,17 @@ namespace youtube_center.Classes
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var number = System.Convert.ToInt32(value);
-            return number >= 1000 ? $"{number / 1000}k views" : $"{number} views";
+
+            if (number >= 1_000_000)
+            {
+                var million = Math.DivRem(number, 1_000_000, out var remainder);
+                return $"{million}.{remainder / 1000}m views";
+            }
+
+            if (number >= 1000)
+                return $"{number / 1000}k views";
+
+            return $"{number} views";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
