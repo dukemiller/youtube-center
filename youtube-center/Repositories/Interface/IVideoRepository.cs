@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using youtube_center.Models;
 
 namespace youtube_center.Repositories.Interface
@@ -14,6 +15,6 @@ namespace youtube_center.Repositories.Interface
         /// <summary>
         ///     Save to disk.
         /// </summary>
-        void Save();
+        Task Save();
     }
 }

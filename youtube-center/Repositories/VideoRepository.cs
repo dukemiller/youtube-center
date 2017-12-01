@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using youtube_center.Models;
 using youtube_center.Repositories.Interface;
@@ -21,10 +22,10 @@ namespace youtube_center.Repositories
 
         public IEnumerable<Video> VideosFor(Channel channel) => Videos.ContainsKey(channel.Id) ? Videos[channel.Id] : new List<Video>();
 
-        public void Save()
+        public async Task Save()
         {
             using (var stream = new StreamWriter(VideosPath))
-                stream.Write(JsonConvert.SerializeObject(this, Formatting.Indented));
+                await stream.WriteAsync(JsonConvert.SerializeObject(this, Formatting.Indented));
         }
 
         // 
