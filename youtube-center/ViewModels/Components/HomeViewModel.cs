@@ -24,6 +24,8 @@ namespace youtube_center.ViewModels.Components
 
         private readonly IYoutubeService _youtubeService;
 
+        private ObservableCollection<Video> _currentVideoPage = new ObservableCollection<Video>();
+
         private ObservableCollection<Video> _videos = new ObservableCollection<Video>();
 
         private Video _selectedVideo;
@@ -31,6 +33,8 @@ namespace youtube_center.ViewModels.Components
         private int _index;
 
         private bool _loading;
+
+        private const int VideosPerPage = 6;
 
         // 
 
@@ -48,6 +52,7 @@ namespace youtube_center.ViewModels.Components
             SettingsCommand = new RelayCommand(() => MessengerInstance.Send(ComponentView.Settings));
             ContextCommand = new RelayCommand<string>(Context);
             DoubleClickCommand = new RelayCommand(DoubleClick);
+            ChangeVideoPageCommand = new RelayCommand<string>(ChangeVideoPage);
             MessengerInstance.Register<Request>(this, HandleRequest);
 
             if (!IsInDesignMode)
@@ -59,10 +64,18 @@ namespace youtube_center.ViewModels.Components
 
         // 
 
+        public int VideosIndex { get; set; }
+
         public ObservableCollection<Video> Videos
         {
             get => _videos;
             set => Set(() => Videos, ref _videos, value);
+        }
+
+        public ObservableCollection<Video> CurrentVideoPage
+        {
+            get => _currentVideoPage;
+            set => Set(() => CurrentVideoPage, ref _currentVideoPage, value);
         }
 
         public Video SelectedVideo
@@ -77,7 +90,11 @@ namespace youtube_center.ViewModels.Components
 
         public RelayCommand DoubleClickCommand { get; set; }
 
+        public RelayCommand<string> ChangeVideoPageCommand { get; set; }
+
         public RelayCommand<string> ContextCommand { get; set; }
+
+        public string PageProgress => $"{VideosIndex + 1}/{(Videos?.Count - 1) / VideosPerPage + 1 ?? 1}";
 
         public bool Loading
         {
@@ -97,8 +114,11 @@ namespace youtube_center.ViewModels.Components
 
         // 
 
-        private void Context(string token)
+        private async void Context(string token)
         {
+            if (SelectedVideo == null)
+                return;
+
             switch (token)
             {
                 case "youtube":
@@ -124,8 +144,18 @@ namespace youtube_center.ViewModels.Components
 
                 case "mark":
                     SelectedVideo.Watched ^= true;
+                    Videos.Remove(SelectedVideo);
+                    CurrentVideoPage.Remove(SelectedVideo);
+                    RaisePropertyChanged(nameof(PageProgress));
+
+                    var replacement = Videos
+                        .Skip(VideosIndex * 6).Take(7)
+                        .FirstOrDefault(v => !CurrentVideoPage.Contains(v));
+
+                    if (replacement != null)
+                        CurrentVideoPage.Add(replacement);
+
                     _videoRepository.Save();
-                    LoadVideos();
                     break;
             }
         }
@@ -149,18 +179,37 @@ namespace youtube_center.ViewModels.Components
             }
         }
 
+        private void ChangeVideoPage(string token)
+        {
+            switch (token)
+            {
+                case "up":
+                    VideosIndex = Math.Max(VideosIndex - 1, 0);
+                    CurrentVideoPage = new ObservableCollection<Video>(Videos.Skip(VideosIndex * VideosPerPage).Take(VideosPerPage));
+                    break;
+                case "down":
+                    VideosIndex = Math.Min(VideosIndex + 1, (Videos.Count - 1) / VideosPerPage);
+                    CurrentVideoPage = new ObservableCollection<Video>(Videos.Skip(VideosIndex * VideosPerPage).Take(VideosPerPage));
+                    break;
+            }
+            RaisePropertyChanged(nameof(PageProgress));
+        }
+
         private async void LoadVideos()
         {
             await Task.Run(() =>
             {
-                Videos = new ObservableCollection<Video>(
-                    _channelRepository
-                        .Channels
-                        .SelectMany(_videoRepository.VideosFor)
-                        .Where(video => Index == 1 ? video.Watched : Index == 0 && !video.Watched)
-                        .OrderByDescending(video => video.Uploaded)
-                        .ThenBy(video => video.Title)
+                Videos = new ObservableCollection<Video>(_channelRepository
+                    .Channels
+                    .SelectMany(_videoRepository.VideosFor)
+                    .Where(video => Index == 1 ? video.Watched : Index == 0 && !video.Watched)
+                    .OrderByDescending(video => video.Uploaded)
+                    .ThenBy(video => video.Title)
                 );
+
+                VideosIndex = 0;
+                CurrentVideoPage = new ObservableCollection<Video>(Videos.Skip(VideosIndex * VideosPerPage).Take(VideosPerPage));
+                RaisePropertyChanged(nameof(PageProgress));
             });
         }
 
@@ -208,7 +257,7 @@ namespace youtube_center.ViewModels.Components
                         var stored = _videoRepository.Videos[channel.Id].FirstOrDefault(v => video.Id == v.Id);
                         bool watched;
 
-                        // This is a new video, mark as watched
+                        // This is a new video, mark as unwatched
                         if (stored == null)
                         {
                             if (!anyChanges)
