@@ -110,7 +110,7 @@ namespace youtube_center.Services
 
                 try
                 {
-                    if (!File.Exists(video.Thumbnail.Url))
+                    if (!File.Exists(path))
                         await Downloader.DownloadFileTaskAsync(image, path);
                     video.Thumbnail.Url = path;
                 }

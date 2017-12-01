@@ -274,6 +274,7 @@ namespace youtube_center.ViewModels.Components
                     }
 
                     _videoRepository.Videos[channel.Id] = videos.OrderByDescending(v => v.Uploaded);
+                    await _youtubeService.ThumbnailCheck(channel, _videoRepository.VideosFor(channel));
                     await _videoRepository.Save();
                 }
 
