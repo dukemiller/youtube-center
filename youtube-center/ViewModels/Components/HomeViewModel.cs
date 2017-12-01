@@ -229,13 +229,13 @@ namespace youtube_center.ViewModels.Components
         {
             var wait = DateTime.Now - _channelRepository.LastChecked;
 
-            if (wait.TotalMinutes >= 5)
+            if (wait.TotalMinutes >= 20)
                 await CheckForNewVideos();
 
             while (true)
             {
                 // Update every 5 minutes
-                await Task.Delay(60 * 5 * 1000);
+                await Task.Delay(60 * 10 * 1000);
                 await CheckForNewVideos();
             }
         }
