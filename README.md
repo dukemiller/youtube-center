@@ -1,6 +1,8 @@
 # youtube-center
 A desktop client for youtube (disconnected from your google profile). Import from your main profile and manage subscriptions within the application.
 
+![Demo](https://i.imgur.com/j3PIXyC.gif)
+
 **\* [Find the download link for the latest version here.](https://github.com/dukemiller/youtube-center/releases/latest)**  
 
 ---
