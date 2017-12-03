@@ -23,6 +23,7 @@
             <classes:DateConverter x:Key="DateConverter" />
             <classes:ViewsConverter x:Key="ViewsConverter"/>
             <classes:VisibilityConverter x:Key="VisibilityConverter"/>
+            <classes:WatchedConverter x:Key="WatchedConverter"/>
             
             <DataTemplate DataType="{x:Type vmComponents:HomeViewModel}">
                 <components:Home />

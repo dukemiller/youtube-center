@@ -12,10 +12,10 @@
     </UserControl.InputBindings>
     <DockPanel Width="300" >
         <DockPanel.ContextMenu>
-            <ContextMenu DataContext="{Binding Source={StaticResource Locator}, Path=Home}">
-                <MenuItem Header="Watch on youtube" Command="{Binding ContextCommand}" CommandParameter="youtube" />
-                <MenuItem Header="Watch with streamlink" Command="{Binding ContextCommand}" CommandParameter="streamlink" />
-                <MenuItem Header="Mark as watched" Command="{Binding ContextCommand}" CommandParameter="mark" />
+            <ContextMenu>
+                <MenuItem Header="Watch on youtube" Command="{Binding Source={StaticResource Locator}, Path=Home.ContextCommand}" CommandParameter="youtube" />
+                <MenuItem Header="Watch with streamlink" Command="{Binding Source={StaticResource Locator}, Path=Home.ContextCommand}" CommandParameter="streamlink" />
+                <MenuItem Header="{Binding Watched, Converter={StaticResource WatchedConverter}}" Command="{Binding Source={StaticResource Locator}, Path=Home.ContextCommand}" CommandParameter="mark" />
             </ContextMenu>
         </DockPanel.ContextMenu>
         <DockPanel DockPanel.Dock="Bottom" Margin="4" HorizontalAlignment="Stretch">
